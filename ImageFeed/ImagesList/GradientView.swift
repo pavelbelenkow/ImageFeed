@@ -3,13 +3,13 @@ import UIKit
 @IBDesignable
 final class GradientView: UIView {
     
-    @IBInspectable var firstColor: UIColor = UIColor.clear {
+    @IBInspectable private var firstColor: UIColor = UIColor.clear {
         didSet {
             updateView()
         }
     }
     
-    @IBInspectable var secondColor: UIColor = UIColor.clear {
+    @IBInspectable private var secondColor: UIColor = UIColor.clear {
         didSet {
             updateView()
         }
@@ -21,7 +21,7 @@ final class GradientView: UIView {
         }
     }
     
-    func updateView() {
+    private func updateView() {
         let layer = self.layer as! CAGradientLayer
         layer.colors = [firstColor.cgColor, secondColor.cgColor]
         layer.locations = [0, 1]
