@@ -45,8 +45,9 @@ extension ImagesListViewController {
     // MARK: - Methods
     
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        let image = UIImage(named: photosName[indexPath.row])
-        guard let image = image else { return }
+        guard let image = UIImage(named: photosName[indexPath.row]) else {
+            return
+        }
         
         cell.cellImage.image = image
         cell.cellImage.contentMode = .scaleAspectFill
@@ -65,8 +66,7 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let image = UIImage(named: photosName[indexPath.row])
-        guard let image = image else {
+        guard let image = UIImage(named: photosName[indexPath.row]) else {
             return 0
         }
         
