@@ -9,12 +9,6 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Properties
     
     private let photosName: [String] = Array(0...19).map{ "\($0)" }
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
     
     // MARK: - Lifecycle
     
@@ -56,7 +50,7 @@ extension ImagesListViewController {
         
         cell.cellImage.image = image
         cell.cellImage.contentMode = .scaleAspectFill
-        cell.dateLabel.text = dateFormatter.string(from: Date())
+        cell.dateLabel.text = Date().dateTimeString
         
         let isLiked = indexPath.row % 2 == 0
         let likeImage = isLiked ? UIImage(named: "LikeButtonActive") : UIImage(named: "LikeButtonNoActive")
