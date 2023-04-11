@@ -118,10 +118,8 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapLogoutButton() {
-        for view in view.subviews {
-            if view is UILabel {
-                view.removeFromSuperview()
-            }
-        }
+        fullNameLabel.text = nil
+        loginNameLabel.text = nil
+        descriptionLabel.text = nil
     }
 }
