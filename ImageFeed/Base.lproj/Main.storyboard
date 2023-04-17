@@ -109,6 +109,10 @@
                                     <action selector="didTapBackButton:" destination="sSa-sd-Ia9" eventType="touchUpInside" id="6YN-WO-lCX"/>
                                 </connections>
                             </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pPA-ip-0X7">
+                                <rect key="frame" x="0.0" y="59" width="414" height="4"/>
+                                <color key="progressTintColor" name="background"/>
+                            </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NIl-wv-Pi4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -116,12 +120,16 @@
                             <constraint firstItem="WbE-VP-Z8i" firstAttribute="leading" secondItem="NIl-wv-Pi4" secondAttribute="leading" constant="9" id="3Pz-Ix-K3m"/>
                             <constraint firstItem="P3H-MN-yG0" firstAttribute="top" secondItem="Cup-Sd-LOa" secondAttribute="top" id="5Ma-jv-Wbh"/>
                             <constraint firstItem="WbE-VP-Z8i" firstAttribute="top" secondItem="NIl-wv-Pi4" secondAttribute="top" constant="11" id="9ZN-6T-W4E"/>
+                            <constraint firstItem="pPA-ip-0X7" firstAttribute="top" secondItem="WbE-VP-Z8i" secondAttribute="bottom" id="FHn-M3-Kft"/>
+                            <constraint firstAttribute="trailing" secondItem="pPA-ip-0X7" secondAttribute="trailing" id="T1U-kX-B2k"/>
+                            <constraint firstItem="pPA-ip-0X7" firstAttribute="leading" secondItem="Cup-Sd-LOa" secondAttribute="leading" id="cUR-eI-pwe"/>
                             <constraint firstAttribute="bottom" secondItem="P3H-MN-yG0" secondAttribute="bottom" id="gQT-UT-rOa"/>
                             <constraint firstItem="P3H-MN-yG0" firstAttribute="leading" secondItem="Cup-Sd-LOa" secondAttribute="leading" id="swF-7M-2va"/>
                             <constraint firstAttribute="trailing" secondItem="P3H-MN-yG0" secondAttribute="trailing" id="uJE-Iz-qg5"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="progressView" destination="pPA-ip-0X7" id="YkY-wS-rQj"/>
                         <outlet property="webView" destination="P3H-MN-yG0" id="T2G-1N-vyS"/>
                     </connections>
                 </viewController>
