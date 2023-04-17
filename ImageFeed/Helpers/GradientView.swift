@@ -22,7 +22,10 @@ final class GradientView: UIView {
     }
     
     private func updateView() {
-        let layer = self.layer as! CAGradientLayer
+        guard let layer = self.layer as? CAGradientLayer else {
+            return
+        }
+        
         layer.colors = [firstColor.cgColor, secondColor.cgColor]
         layer.locations = [0, 1]
     }
