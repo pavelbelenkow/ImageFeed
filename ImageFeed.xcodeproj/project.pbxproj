@@ -10,6 +10,7 @@
 		591823F629D8DE6C00ABE29A /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591823F529D8DE6C00ABE29A /* SingleImageViewController.swift */; };
 		592FA59529CA09BD008BF730 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592FA59429CA09BD008BF730 /* GradientView.swift */; };
 		596F6BB629D638B600B72550 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596F6BB529D638B600B72550 /* ProfileViewController.swift */; };
+		59890CCF29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59890CCE29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift */; };
 		59941BFE29C8982000AC5D3D /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59941BFD29C8982000AC5D3D /* ImagesListCell.swift */; };
 		59A0374129C3911800AA8CC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A0374029C3911800AA8CC8 /* AppDelegate.swift */; };
 		59A0374329C3911800AA8CC8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A0374229C3911800AA8CC8 /* SceneDelegate.swift */; };
@@ -19,12 +20,15 @@
 		59A0374D29C3911900AA8CC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59A0374B29C3911900AA8CC8 /* LaunchScreen.storyboard */; };
 		59BD01CA29CB88D100EA1DBC /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BD01C929CB88D100EA1DBC /* Date+Extensions.swift */; };
 		59C1F16529E84E8000C071A1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C1F16429E84E8000C071A1 /* Constants.swift */; };
+		59D177E829EB303B002ADD68 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D177E729EB303B002ADD68 /* AuthViewController.swift */; };
+		59D177EB29EB4272002ADD68 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D177EA29EB4272002ADD68 /* WebViewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		591823F529D8DE6C00ABE29A /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		592FA59429CA09BD008BF730 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		596F6BB529D638B600B72550 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		59890CCE29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerDelegate.swift; sourceTree = "<group>"; };
 		59941BFD29C8982000AC5D3D /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		59A0373D29C3911800AA8CC8 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59A0374029C3911800AA8CC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +40,8 @@
 		59A0374E29C3911900AA8CC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59BD01C929CB88D100EA1DBC /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		59C1F16429E84E8000C071A1 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		59D177E729EB303B002ADD68 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		59D177EA29EB4272002ADD68 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +58,7 @@
 		59A0373429C3911800AA8CC8 = {
 			isa = PBXGroup;
 			children = (
+				59D177E929EB4234002ADD68 /* Auth */,
 				59C1F16429E84E8000C071A1 /* Constants.swift */,
 				59A0373F29C3911800AA8CC8 /* ImageFeed */,
 				59A0373E29C3911800AA8CC8 /* Products */,
@@ -107,6 +114,16 @@
 				592FA59429CA09BD008BF730 /* GradientView.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		59D177E929EB4234002ADD68 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				59D177E729EB303B002ADD68 /* AuthViewController.swift */,
+				59D177EA29EB4272002ADD68 /* WebViewViewController.swift */,
+				59890CCE29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		59D2CC9729D8E1EA00657A80 /* SingleImage */ = {
@@ -198,11 +215,14 @@
 			files = (
 				59A0374529C3911800AA8CC8 /* ImagesListViewController.swift in Sources */,
 				59941BFE29C8982000AC5D3D /* ImagesListCell.swift in Sources */,
+				59D177E829EB303B002ADD68 /* AuthViewController.swift in Sources */,
 				592FA59529CA09BD008BF730 /* GradientView.swift in Sources */,
+				59D177EB29EB4272002ADD68 /* WebViewViewController.swift in Sources */,
 				59A0374129C3911800AA8CC8 /* AppDelegate.swift in Sources */,
 				596F6BB629D638B600B72550 /* ProfileViewController.swift in Sources */,
 				59A0374329C3911800AA8CC8 /* SceneDelegate.swift in Sources */,
 				591823F629D8DE6C00ABE29A /* SingleImageViewController.swift in Sources */,
+				59890CCF29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift in Sources */,
 				59BD01CA29CB88D100EA1DBC /* Date+Extensions.swift in Sources */,
 				59C1F16529E84E8000C071A1 /* Constants.swift in Sources */,
 			);
