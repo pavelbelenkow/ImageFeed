@@ -90,7 +90,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P3H-MN-yG0">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="52" width="414" height="844"/>
                                 <color key="backgroundColor" name="white"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -98,7 +98,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WbE-VP-Z8i" userLabel="Back Button">
-                                <rect key="frame" x="9" y="11" width="48" height="48"/>
+                                <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="8d5-sT-9og"/>
                                     <constraint firstAttribute="height" constant="48" id="8it-HS-PgF"/>
@@ -110,16 +110,16 @@
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pPA-ip-0X7">
-                                <rect key="frame" x="0.0" y="59" width="414" height="4"/>
-                                <color key="progressTintColor" name="background"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="4"/>
+                                <color key="tintColor" name="background"/>
                             </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NIl-wv-Pi4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="WbE-VP-Z8i" firstAttribute="leading" secondItem="NIl-wv-Pi4" secondAttribute="leading" constant="9" id="3Pz-Ix-K3m"/>
-                            <constraint firstItem="P3H-MN-yG0" firstAttribute="top" secondItem="Cup-Sd-LOa" secondAttribute="top" id="5Ma-jv-Wbh"/>
-                            <constraint firstItem="WbE-VP-Z8i" firstAttribute="top" secondItem="NIl-wv-Pi4" secondAttribute="top" constant="11" id="9ZN-6T-W4E"/>
+                            <constraint firstItem="WbE-VP-Z8i" firstAttribute="leading" secondItem="NIl-wv-Pi4" secondAttribute="leading" id="3Pz-Ix-K3m"/>
+                            <constraint firstItem="P3H-MN-yG0" firstAttribute="top" secondItem="pPA-ip-0X7" secondAttribute="bottom" id="5Ma-jv-Wbh"/>
+                            <constraint firstItem="WbE-VP-Z8i" firstAttribute="top" secondItem="NIl-wv-Pi4" secondAttribute="top" id="9ZN-6T-W4E"/>
                             <constraint firstItem="pPA-ip-0X7" firstAttribute="top" secondItem="WbE-VP-Z8i" secondAttribute="bottom" id="FHn-M3-Kft"/>
                             <constraint firstAttribute="trailing" secondItem="pPA-ip-0X7" secondAttribute="trailing" id="T1U-kX-B2k"/>
                             <constraint firstItem="pPA-ip-0X7" firstAttribute="leading" secondItem="Cup-Sd-LOa" secondAttribute="leading" id="cUR-eI-pwe"/>
