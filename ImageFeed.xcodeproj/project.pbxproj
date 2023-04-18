@@ -58,8 +58,6 @@
 		59A0373429C3911800AA8CC8 = {
 			isa = PBXGroup;
 			children = (
-				59D177E929EB4234002ADD68 /* Auth */,
-				59C1F16429E84E8000C071A1 /* Constants.swift */,
 				59A0373F29C3911800AA8CC8 /* ImageFeed */,
 				59A0373E29C3911800AA8CC8 /* Products */,
 			);
@@ -76,6 +74,8 @@
 		59A0373F29C3911800AA8CC8 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				59C1F16429E84E8000C071A1 /* Constants.swift */,
+				59D177E929EB4234002ADD68 /* Auth */,
 				59A8C34829C79FF6003E77FF /* ImagesList */,
 				59DDFDBD29D78700008081EB /* Profile */,
 				59D2CC9729D8E1EA00657A80 /* SingleImage */,
