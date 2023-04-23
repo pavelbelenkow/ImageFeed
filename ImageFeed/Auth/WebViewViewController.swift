@@ -13,7 +13,6 @@ final class WebViewViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet private var webView: WKWebView!
-    
     @IBOutlet private var progressView: UIProgressView!
     
     // MARK: - Properties
@@ -57,7 +56,7 @@ final class WebViewViewController: UIViewController {
     // MARK: - Methods
     
     private func fetch() {
-        guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString.rawValue) else {
+        guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURL.rawValue) else {
             return
         }
         
