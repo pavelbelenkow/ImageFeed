@@ -13,6 +13,11 @@ final class AuthViewController: UIViewController {
     
     private let showWebViewSegueIdentifier = "ShowWebView"
     
+    private let oauth2Service = OAuth2Service()
+    private let oauth2TokenStorage = OAuth2TokenStorage()
+    
+    weak var delegate: AuthViewControllerDelegate?
+    
     // MARK: - Segue methods
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -31,52 +36,20 @@ extension AuthViewController: WebViewViewControllerDelegate {
     
     // MARK: - Delegate methods
     
-    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {}
+    func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        oauth2Service.fetchAuthToken(code) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success(let token):
+                self.oauth2TokenStorage.token = token
+                self.delegate?.authViewController(self, didAuthenticateWithCode: code)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         dismiss(animated: true)
     }
 }
-
-//private lazy var logoImageView: UIImageView = {
-//    let imageView = UIImageView()
-//    imageView.image = UIImage(named: "UnsplashLogo")
-//    imageView.translatesAutoresizingMaskIntoConstraints = false
-//    return imageView
-//}()
-//private lazy var loginButton: UIButton = {
-//    let button = UIButton(type: .system)
-//    button.setTitle("Войти", for: .normal)
-//    button.setTitleColor(UIColor(named: "background"), for: .normal)
-//    button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-//    button.backgroundColor = UIColor(named: "white")
-//    button.layer.masksToBounds = true
-//    button.layer.cornerRadius = 16
-//    button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
-//    button.translatesAutoresizingMaskIntoConstraints = false
-//    return button
-//}()
-//private func addLogoImageView() {
-//    view.addSubview(logoImageView)
-//
-//    NSLayoutConstraint.activate([
-//        logoImageView.widthAnchor.constraint(equalToConstant: 60),
-//        logoImageView.heightAnchor.constraint(equalToConstant: 60),
-//        logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//        logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-//    ])
-//}
-//
-//private func addLoginButton() {
-//    view.addSubview(loginButton)
-//
-//    NSLayoutConstraint.activate([
-//        loginButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-//        loginButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-//        loginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90),
-//        loginButton.heightAnchor.constraint(equalToConstant: 48)
-//    ])
-//}
-//
-//@objc
-//private func didTapLoginButton() {}
