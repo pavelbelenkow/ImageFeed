@@ -8,7 +8,7 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let photosName: [String] = Array(0...19).map{ "\($0)" }
+    private let photosName: [String] = Array(0...24).map{ "\($0)" }
     private let showSingleImageSegueIdentifier = "PresentSingleImage"
     
     // MARK: - Lifecycle

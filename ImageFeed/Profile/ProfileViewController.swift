@@ -2,7 +2,7 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: - Outlets
+    // MARK: - Properties
     
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
