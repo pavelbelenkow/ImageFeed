@@ -32,7 +32,6 @@ extension URLSession {
                 if 200 ..< 300 ~= response.statusCode {
                     fulfillCompletion(.success(data))
                 } else {
-                    print(String(data: data, encoding: .utf8) as Any)
                     fulfillCompletion(.failure(NetworkError.httpStatusCode(response.statusCode)))
                 }
             } else if let error = error {
