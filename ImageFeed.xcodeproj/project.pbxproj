@@ -13,6 +13,9 @@
 		596F6BB629D638B600B72550 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596F6BB529D638B600B72550 /* ProfileViewController.swift */; };
 		59717E3B29F2E968007DAE4C /* AuthViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59717E3A29F2E968007DAE4C /* AuthViewControllerDelegate.swift */; };
 		59717E3D29F2E9E7007DAE4C /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59717E3C29F2E9E7007DAE4C /* URLSession+Extensions.swift */; };
+		5987B18429FB7240007DA4F2 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5987B18329FB7240007DA4F2 /* AlertPresenter.swift */; };
+		5987B18629FB724F007DA4F2 /* AlertPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5987B18529FB724F007DA4F2 /* AlertPresenterProtocol.swift */; };
+		5987B18829FB7285007DA4F2 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5987B18729FB7285007DA4F2 /* AlertModel.swift */; };
 		59890CCF29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59890CCE29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift */; };
 		59941BFE29C8982000AC5D3D /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59941BFD29C8982000AC5D3D /* ImagesListCell.swift */; };
 		59A0374129C3911800AA8CC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A0374029C3911800AA8CC8 /* AppDelegate.swift */; };
@@ -38,6 +41,9 @@
 		596F6BB529D638B600B72550 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		59717E3A29F2E968007DAE4C /* AuthViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewControllerDelegate.swift; sourceTree = "<group>"; };
 		59717E3C29F2E9E7007DAE4C /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
+		5987B18329FB7240007DA4F2 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		5987B18529FB724F007DA4F2 /* AlertPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenterProtocol.swift; sourceTree = "<group>"; };
+		5987B18729FB7285007DA4F2 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		59890CCE29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerDelegate.swift; sourceTree = "<group>"; };
 		59941BFD29C8982000AC5D3D /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
 		59A0373D29C3911800AA8CC8 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,6 +133,7 @@
 		59B2C7FB29EEDB7200BA1909 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5987B18729FB7285007DA4F2 /* AlertModel.swift */,
 				59B2C7FC29EEDBA000BA1909 /* OAuthTokenResponseBody.swift */,
 			);
 			path = Models;
@@ -135,6 +142,8 @@
 		59B2C7FE29EEF97B00BA1909 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5987B18329FB7240007DA4F2 /* AlertPresenter.swift */,
+				5987B18529FB724F007DA4F2 /* AlertPresenterProtocol.swift */,
 				59B2C7FF29EF037D00BA1909 /* OAuth2Service.swift */,
 				59B2C80129EF039200BA1909 /* OAuth2ServiceProtocol.swift */,
 				59B2C80329EF03BC00BA1909 /* OAuth2TokenStorage.swift */,
@@ -265,9 +274,12 @@
 				59A0374329C3911800AA8CC8 /* SceneDelegate.swift in Sources */,
 				591823F629D8DE6C00ABE29A /* SingleImageViewController.swift in Sources */,
 				5936333929F2EB2B001BE590 /* SplashViewController.swift in Sources */,
+				5987B18429FB7240007DA4F2 /* AlertPresenter.swift in Sources */,
 				59B2C80429EF03BC00BA1909 /* OAuth2TokenStorage.swift in Sources */,
 				59890CCF29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift in Sources */,
 				59BD01CA29CB88D100EA1DBC /* Date+Extensions.swift in Sources */,
+				5987B18629FB724F007DA4F2 /* AlertPresenterProtocol.swift in Sources */,
+				5987B18829FB7285007DA4F2 /* AlertModel.swift in Sources */,
 				59C1F16529E84E8000C071A1 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

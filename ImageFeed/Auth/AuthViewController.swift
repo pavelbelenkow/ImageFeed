@@ -13,8 +13,8 @@ final class AuthViewController: UIViewController {
     
     private let showWebViewSegueIdentifier = "ShowWebView"
     
-    private let oauth2Service = OAuth2Service()
-    private let oauth2TokenStorage = OAuth2TokenStorage()
+    private let oauth2Service = OAuth2Service.shared
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
     
     weak var delegate: AuthViewControllerDelegate?
     
@@ -23,7 +23,8 @@ final class AuthViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
             guard let webViewViewController = segue.destination as? WebViewViewController else {
-                fatalError("Failed to prepare for \(showWebViewSegueIdentifier)")
+                assertionFailure("Failed to prepare for \(showWebViewSegueIdentifier)")
+                return
             }
             webViewViewController.delegate = self
         } else {
@@ -44,7 +45,16 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 self.oauth2TokenStorage.token = token
                 self.delegate?.authViewController(self, didAuthenticateWithCode: code)
             case .failure(let error):
-                print(error.localizedDescription)
+                let alert = AlertModel(
+                    title: "Ошибка сети",
+                    message: error.localizedDescription,
+                    buttonText: "Попробовать ещё раз"
+                ) { [ weak self] in
+                    guard let self else { return }
+                    self.webViewViewController(vc, didAuthenticateWithCode: code)
+                }
+                
+                AlertPresenter(viewController: vc).showAlert(model: alert)
             }
         }
     }
