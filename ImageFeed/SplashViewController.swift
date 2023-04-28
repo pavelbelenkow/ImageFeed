@@ -12,7 +12,7 @@ final class SplashViewController: UIViewController {
     // MARK: - Properties
     
     private let showAuthScreenSegueIdentifier = "ShowAuthenticationScreen"
-    private let oauth2TokenStorage = OAuth2TokenStorage()
+    private let oauth2TokenStorage = OAuth2TokenStorage.shared
     
     // MARK: - Lifecycle
     
@@ -52,7 +52,8 @@ extension SplashViewController {
             guard let navigationController = segue.destination as? UINavigationController,
                   let viewController = navigationController.viewControllers[0] as? AuthViewController
             else {
-                fatalError("Failed to prepare for \(showAuthScreenSegueIdentifier)")
+                assertionFailure("Failed to prepare for \(showAuthScreenSegueIdentifier)")
+                return
             }
             
             viewController.delegate = self
