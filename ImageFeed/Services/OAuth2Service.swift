@@ -18,14 +18,14 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         _ code: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
-        guard var urlComponents = URLComponents(string: Constants.unsplashTokenURL.rawValue) else {
+        guard var urlComponents = URLComponents(string: Constants.unsplashTokenURL) else {
             return
         }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey.rawValue),
-            URLQueryItem(name: "client_secret", value: Constants.secretKey.rawValue),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI.rawValue),
+            URLQueryItem(name: "client_id", value: Constants.accessKey),
+            URLQueryItem(name: "client_secret", value: Constants.secretKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "code", value: code),
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]

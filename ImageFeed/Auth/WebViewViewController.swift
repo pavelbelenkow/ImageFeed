@@ -56,15 +56,15 @@ final class WebViewViewController: UIViewController {
     // MARK: - Methods
     
     private func fetch() {
-        guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURL.rawValue) else {
+        guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURL) else {
             return
         }
         
         urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey.rawValue),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI.rawValue),
+            URLQueryItem(name: "client_id", value: Constants.accessKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
-            URLQueryItem(name: "scope", value: Constants.accessScope.rawValue)
+            URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
         
         guard let url = urlComponents.url else {
