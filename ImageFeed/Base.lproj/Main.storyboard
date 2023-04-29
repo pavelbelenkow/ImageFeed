@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -116,7 +115,7 @@
                             </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NIl-wv-Pi4"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="white"/>
                         <constraints>
                             <constraint firstItem="WbE-VP-Z8i" firstAttribute="leading" secondItem="NIl-wv-Pi4" secondAttribute="leading" id="3Pz-Ix-K3m"/>
                             <constraint firstItem="P3H-MN-yG0" firstAttribute="top" secondItem="pPA-ip-0X7" secondAttribute="bottom" id="5Ma-jv-Wbh"/>
@@ -420,8 +419,5 @@
         <namedColor name="white(alpha 50)">
             <color red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>
