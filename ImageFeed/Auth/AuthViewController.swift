@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class AuthViewController: UIViewController {
     
@@ -38,13 +39,17 @@ extension AuthViewController: WebViewViewControllerDelegate {
     // MARK: - Delegate methods
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        ProgressHUD.show()
+        
         oauth2Service.fetchAuthToken(code) { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let token):
+                ProgressHUD.dismiss()
                 self.oauth2TokenStorage.token = token
                 self.delegate?.authViewController(self, didAuthenticateWithCode: code)
             case .failure(let error):
+                ProgressHUD.dismiss()
                 let alert = AlertModel(
                     title: "Ошибка сети",
                     message: error.localizedDescription,
