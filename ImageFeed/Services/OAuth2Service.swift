@@ -13,11 +13,18 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     
     private let decoder = JSONDecoder()
     private let session = URLSession.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
     
     func fetchAuthToken(
         _ code: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
+        assert(Thread.isMainThread)
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
+        
         guard var urlComponents = URLComponents(string: Constants.unsplashTokenURL) else {
             return
         }
@@ -30,7 +37,10 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
         
-        guard let url = urlComponents.url else { return }
+        guard let url = urlComponents.url else {
+            assertionFailure("Failed to create URL")
+            return
+        }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -41,8 +51,11 @@ final class OAuth2Service: OAuth2ServiceProtocol {
                 completion(.success(body.accessToken))
             case .failure(let error):
                 completion(.failure(error))
+                self.lastCode = nil
             }
+            self.task = nil
         }
+        self.task = task
         task.resume()
     }
 }
