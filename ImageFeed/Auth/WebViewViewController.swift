@@ -25,6 +25,7 @@ final class WebViewViewController: UIViewController {
         super.viewDidLoad()
         webView.navigationDelegate = self
         fetch()
+        clear()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,6 +74,20 @@ final class WebViewViewController: UIViewController {
         
         let request = URLRequest(url: url)
         webView.load(request)
+    }
+    
+    private func clear() {
+        URLCache.shared.removeAllCachedResponses()
+        
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        print("[WebCacheCleaner] All cookies deleted")
+        
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+                print("[WebCacheCleaner] Record \(record) deleted")
+            }
+        }
     }
 }
 
