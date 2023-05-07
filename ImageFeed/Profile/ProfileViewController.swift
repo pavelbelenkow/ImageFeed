@@ -4,6 +4,8 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Properties
     
+    private let profileService = ProfileService.shared
+    
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "UserPicStub")
@@ -59,6 +61,9 @@ final class ProfileViewController: UIViewController {
         addLoginNameLabel()
         addDescriptionLabel()
         addLogoutButton()
+        
+        guard let profile = profileService.profile else { return }
+        updateProfileDetails(profile: profile)
     }
     
     // MARK: - Methods
@@ -112,6 +117,12 @@ final class ProfileViewController: UIViewController {
             logoutButton.leadingAnchor.constraint(greaterThanOrEqualTo: userImageView.trailingAnchor),
             logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24)
         ])
+    }
+    
+    private func updateProfileDetails(profile: Profile) {
+        fullNameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
     }
     
     // MARK: - Objective-C methods

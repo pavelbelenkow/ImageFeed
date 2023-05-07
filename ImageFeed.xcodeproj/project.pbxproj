@@ -15,6 +15,10 @@
 		596F6BB629D638B600B72550 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596F6BB529D638B600B72550 /* ProfileViewController.swift */; };
 		59717E3B29F2E968007DAE4C /* AuthViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59717E3A29F2E968007DAE4C /* AuthViewControllerDelegate.swift */; };
 		59717E3D29F2E9E7007DAE4C /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59717E3C29F2E9E7007DAE4C /* URLSession+Extensions.swift */; };
+		59872E182A0054D9000F2BC6 /* ProfileServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59872E172A0054D9000F2BC6 /* ProfileServiceProtocol.swift */; };
+		59872E1A2A0054E6000F2BC6 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59872E192A0054E6000F2BC6 /* ProfileService.swift */; };
+		59872E1C2A00550E000F2BC6 /* ProfileResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59872E1B2A00550E000F2BC6 /* ProfileResult.swift */; };
+		59872E1E2A0056B5000F2BC6 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59872E1D2A0056B5000F2BC6 /* Profile.swift */; };
 		5987B18429FB7240007DA4F2 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5987B18329FB7240007DA4F2 /* AlertPresenter.swift */; };
 		5987B18629FB724F007DA4F2 /* AlertPresenterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5987B18529FB724F007DA4F2 /* AlertPresenterProtocol.swift */; };
 		5987B18829FB7285007DA4F2 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5987B18729FB7285007DA4F2 /* AlertModel.swift */; };
@@ -44,6 +48,10 @@
 		596F6BB529D638B600B72550 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		59717E3A29F2E968007DAE4C /* AuthViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewControllerDelegate.swift; sourceTree = "<group>"; };
 		59717E3C29F2E9E7007DAE4C /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
+		59872E172A0054D9000F2BC6 /* ProfileServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileServiceProtocol.swift; sourceTree = "<group>"; };
+		59872E192A0054E6000F2BC6 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		59872E1B2A00550E000F2BC6 /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
+		59872E1D2A0056B5000F2BC6 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		5987B18329FB7240007DA4F2 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		5987B18529FB724F007DA4F2 /* AlertPresenterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenterProtocol.swift; sourceTree = "<group>"; };
 		5987B18729FB7285007DA4F2 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
@@ -140,6 +148,8 @@
 			children = (
 				5987B18729FB7285007DA4F2 /* AlertModel.swift */,
 				59B2C7FC29EEDBA000BA1909 /* OAuthTokenResponseBody.swift */,
+				59872E1D2A0056B5000F2BC6 /* Profile.swift */,
+				59872E1B2A00550E000F2BC6 /* ProfileResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -152,6 +162,8 @@
 				59B2C7FF29EF037D00BA1909 /* OAuth2Service.swift */,
 				59B2C80129EF039200BA1909 /* OAuth2ServiceProtocol.swift */,
 				59B2C80329EF03BC00BA1909 /* OAuth2TokenStorage.swift */,
+				59872E192A0054E6000F2BC6 /* ProfileService.swift */,
+				59872E172A0054D9000F2BC6 /* ProfileServiceProtocol.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -279,8 +291,10 @@
 				59B2C7FD29EEDBA000BA1909 /* OAuthTokenResponseBody.swift in Sources */,
 				59B2C80029EF037D00BA1909 /* OAuth2Service.swift in Sources */,
 				59717E3B29F2E968007DAE4C /* AuthViewControllerDelegate.swift in Sources */,
+				59872E1A2A0054E6000F2BC6 /* ProfileService.swift in Sources */,
 				59717E3D29F2E9E7007DAE4C /* URLSession+Extensions.swift in Sources */,
 				59A0374129C3911800AA8CC8 /* AppDelegate.swift in Sources */,
+				59872E1C2A00550E000F2BC6 /* ProfileResult.swift in Sources */,
 				596F6BB629D638B600B72550 /* ProfileViewController.swift in Sources */,
 				59B2C80229EF039200BA1909 /* OAuth2ServiceProtocol.swift in Sources */,
 				59A0374329C3911800AA8CC8 /* SceneDelegate.swift in Sources */,
@@ -289,9 +303,11 @@
 				5987B18429FB7240007DA4F2 /* AlertPresenter.swift in Sources */,
 				59B2C80429EF03BC00BA1909 /* OAuth2TokenStorage.swift in Sources */,
 				59890CCF29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift in Sources */,
+				59872E182A0054D9000F2BC6 /* ProfileServiceProtocol.swift in Sources */,
 				59BD01CA29CB88D100EA1DBC /* Date+Extensions.swift in Sources */,
 				5987B18629FB724F007DA4F2 /* AlertPresenterProtocol.swift in Sources */,
 				5987B18829FB7285007DA4F2 /* AlertModel.swift in Sources */,
+				59872E1E2A0056B5000F2BC6 /* Profile.swift in Sources */,
 				59C1F16529E84E8000C071A1 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

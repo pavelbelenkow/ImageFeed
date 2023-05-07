@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
     
     // MARK: - Properties
     
     private let showAuthScreenSegueIdentifier = "ShowAuthenticationScreen"
+    private let profileService = ProfileService.shared
     private let oauth2TokenStorage = OAuth2TokenStorage.shared
     
     // MARK: - Lifecycle
@@ -24,10 +26,34 @@ final class SplashViewController: UIViewController {
     // MARK: - Methods
     
     private func checkAuthorization() {
-        if oauth2TokenStorage.token != nil {
-            switchToTabBarController()
+        if let token = oauth2TokenStorage.token {
+            fetchProfile(token: token)
         } else {
             performSegue(withIdentifier: showAuthScreenSegueIdentifier, sender: nil)
+        }
+    }
+    
+    private func fetchProfile(token: String) {
+        UIBlockingProgressHUD.show()
+        
+        profileService.fetchProfile(token) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success:
+                self.switchToTabBarController()
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                let alert = AlertModel(
+                    title: "Не удалось получить данные профиля",
+                    message: error.localizedDescription,
+                    buttonText: "Попробовать ещё раз"
+                ) { [weak self] in
+                    guard let self else { return }
+                    self.fetchProfile(token: token)
+                }
+                
+                AlertPresenter(viewController: self).showAlert(model: alert)
+            }
         }
     }
     
