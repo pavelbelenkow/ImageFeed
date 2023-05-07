@@ -60,7 +60,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     }
 }
 
-extension OAuth2Service {
+private extension OAuth2Service {
     func fetchDataTask(
         for request: URLRequest,
         completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void
