@@ -45,7 +45,7 @@ final class ProfileService: ProfileServiceProtocol {
                 self.profile = self.convertProfileResult(from: body)
                 guard let profile = self.profile else { return }
                 completion(.success(profile))
-            case.failure(let error):
+            case .failure(let error):
                 completion(.failure(error))
             }
             self.task = nil

@@ -5,6 +5,8 @@ final class ProfileViewController: UIViewController {
     // MARK: - Properties
     
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
@@ -64,6 +66,17 @@ final class ProfileViewController: UIViewController {
         
         guard let profile = profileService.profile else { return }
         updateProfileDetails(profile: profile)
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self else { return }
+                self.updateUserImage()
+            }
+        updateUserImage()
     }
     
     // MARK: - Methods
@@ -123,6 +136,14 @@ final class ProfileViewController: UIViewController {
         fullNameLabel.text = profile.name
         loginNameLabel.text = profile.loginName
         descriptionLabel.text = profile.bio
+    }
+    
+    private func updateUserImage() {
+        guard
+            let profileImageURL = profileImageService.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
     }
     
     // MARK: - Objective-C methods

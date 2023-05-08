@@ -14,6 +14,7 @@ final class SplashViewController: UIViewController {
     
     private let showAuthScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     private let oauth2TokenStorage = OAuth2TokenStorage.shared
     
     // MARK: - Lifecycle
@@ -39,9 +40,10 @@ final class SplashViewController: UIViewController {
         profileService.fetchProfile(token) { [weak self] result in
             guard let self else { return }
             switch result {
-            case .success:
+            case .success(let profile):
                 self.switchToTabBarController()
                 UIBlockingProgressHUD.dismiss()
+                profileImageService.fetchProfileImageURL(username: profile.username) { _ in }
             case .failure(let error):
                 let alert = AlertModel(
                     title: "Не удалось получить данные профиля",
