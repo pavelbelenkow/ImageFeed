@@ -11,7 +11,6 @@ final class ProfileService: ProfileServiceProtocol {
     
     static let shared = ProfileService()
     
-    private let decoder = JSONDecoder()
     private let session = URLSession.shared
     private var task: URLSessionTask?
     private(set) var profile: Profile?
@@ -39,16 +38,16 @@ final class ProfileService: ProfileServiceProtocol {
         var request = URLRequest(url: url)
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        let task = fetchDataTask(for: request) { result in
+        let task = session.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             switch result {
             case .success(let body):
-                self.profile = self.convertProfileResult(from: body)
-                guard let profile = self.profile else { return }
+                self?.profile = self?.convertProfileResult(from: body)
+                guard let profile = self?.profile else { return }
                 completion(.success(profile))
             case .failure(let error):
                 completion(.failure(error))
             }
-            self.task = nil
+            self?.task = nil
         }
         self.task = task
         task.resume()
@@ -63,19 +62,5 @@ private extension ProfileService {
             loginName: "@" + profile.username,
             bio: profile.bio ?? String()
         )
-    }
-    
-    func fetchDataTask(
-        for request: URLRequest,
-        completion: @escaping (Result<ProfileResult, Error>) -> Void
-    ) -> URLSessionDataTask {
-        session.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<ProfileResult, Error> in
-                Result {
-                    try self.decoder.decode(ProfileResult.self, from: data)
-                }
-            }
-            completion(response)
-        }
     }
 }

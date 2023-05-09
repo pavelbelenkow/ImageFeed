@@ -11,7 +11,6 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     
     static let shared = OAuth2Service()
     
-    private let decoder = JSONDecoder()
     private let session = URLSession.shared
     private var task: URLSessionTask?
     private var lastCode: String?
@@ -45,33 +44,17 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
-        let task = fetchDataTask(for: request) { result in
+        let task = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             switch result {
             case .success(let body):
                 completion(.success(body.accessToken))
             case .failure(let error):
                 completion(.failure(error))
-                self.lastCode = nil
+                self?.lastCode = nil
             }
-            self.task = nil
+            self?.task = nil
         }
         self.task = task
         task.resume()
-    }
-}
-
-private extension OAuth2Service {
-    func fetchDataTask(
-        for request: URLRequest,
-        completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void
-    ) -> URLSessionDataTask {
-        session.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<OAuthTokenResponseBody, Error> in
-                Result {
-                    try self.decoder.decode(OAuthTokenResponseBody.self, from: data)
-                }
-            }
-            completion(response)
-        }
     }
 }
