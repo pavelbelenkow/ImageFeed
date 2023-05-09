@@ -51,9 +51,9 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 self.delegate?.authViewController(self, didAuthenticateWithCode: code)
             case .failure(let error):
                 let alert = AlertModel(
-                    title: "Ошибка сети",
+                    title: "Что-то пошло не так :(",
                     message: error.localizedDescription,
-                    buttonText: "Попробовать ещё раз"
+                    buttonText: "Ок"
                 ) { [ weak self] in
                     guard let self else { return }
                     self.webViewViewController(vc, didAuthenticateWithCode: code)

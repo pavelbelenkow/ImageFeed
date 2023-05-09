@@ -48,7 +48,7 @@ final class SplashViewController: UIViewController {
                 let alert = AlertModel(
                     title: "Не удалось получить данные профиля",
                     message: error.localizedDescription,
-                    buttonText: "Попробовать ещё раз"
+                    buttonText: "Ок"
                 ) { [weak self] in
                     guard let self else { return }
                     self.fetchProfile(token: token)
