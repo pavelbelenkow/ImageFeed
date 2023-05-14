@@ -25,40 +25,42 @@ final class ProfileService: ProfileServiceProtocol {
             return
         }
         
-        guard var urlComponents = URLComponents(string: Constants.defaultBaseURL) else {
-            return
-        }
-        urlComponents.path = "/me"
-        
-        guard let url = urlComponents.url else {
-            assertionFailure("Failed to create URL")
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        guard let request = profileRequest(token) else { return }
         
         let task = session.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            guard let self else { return }
+            
             switch result {
             case .success(let body):
-                self?.profile = self?.convertProfileResult(from: body)
-                guard let profile = self?.profile else { return }
+                profile = convertProfileResult(from: body)
+                guard let profile = profile else { return }
                 completion(.success(profile))
             case .failure(let error):
                 completion(.failure(error))
             }
-            self?.task = nil
+            self.task = nil
         }
         self.task = task
-        task.resume()
     }
 }
 
 private extension ProfileService {
+    
+    func profileRequest(_ token: String) -> URLRequest? {
+        var request = URLRequest.makeHTTPRequest(
+            baseURL: Constants.defaultBaseURL,
+            path: "/me",
+            httpMethod: "GET"
+        )
+        request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        return request
+    }
+    
     func convertProfileResult(from profile: ProfileResult) -> Profile {
         Profile(
             username: profile.username,
-            name: profile.firstName + " " + profile.lastName,
+            name: profile.firstName + " " + (profile.lastName ?? String()),
             loginName: "@" + profile.username,
             bio: profile.bio ?? String()
         )
