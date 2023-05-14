@@ -17,7 +17,15 @@ final class AuthViewController: UIViewController {
     private let oauth2Service = OAuth2Service.shared
     private let oauth2TokenStorage = OAuth2TokenStorage.shared
     
+    private var alertPresenter: AlertPresenterProtocol?
     weak var delegate: AuthViewControllerDelegate?
+    
+    // MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        alertPresenter = AlertPresenter(viewController: self)
+    }
     
     // MARK: - Segue methods
     
@@ -40,6 +48,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
+        webViewViewControllerDidCancel(vc)
         
         oauth2Service.fetchAuthToken(code) { [weak self] result in
             guard let self else { return }
@@ -59,7 +68,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                     self.webViewViewController(vc, didAuthenticateWithCode: code)
                 }
                 
-                AlertPresenter(viewController: vc).showAlert(model: alert)
+                alertPresenter?.showAlert(model: alert)
             }
         }
     }
