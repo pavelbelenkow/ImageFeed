@@ -24,8 +24,30 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         task?.cancel()
         lastCode = code
         
+        guard let request = oauth2Request(code) else { return }
+        
+        let task = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let body):
+                completion(.success(body.accessToken))
+            case .failure(let error):
+                completion(.failure(error))
+                self.lastCode = nil
+            }
+            self.task = nil
+        }
+        self.task = task
+    }
+}
+
+private extension OAuth2Service {
+    func oauth2Request(_ code: String) -> URLRequest? {
+        
         guard var urlComponents = URLComponents(string: Constants.unsplashTokenURL) else {
-            return
+            assertionFailure("Failed to get URL from String")
+            return nil
         }
         
         urlComponents.queryItems = [
@@ -38,23 +60,11 @@ final class OAuth2Service: OAuth2ServiceProtocol {
         
         guard let url = urlComponents.url else {
             assertionFailure("Failed to create URL")
-            return
+            return nil
         }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
-        let task = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
-            switch result {
-            case .success(let body):
-                completion(.success(body.accessToken))
-            case .failure(let error):
-                completion(.failure(error))
-                self?.lastCode = nil
-            }
-            self?.task = nil
-        }
-        self.task = task
-        task.resume()
+        return request
     }
 }

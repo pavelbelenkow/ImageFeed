@@ -27,25 +27,15 @@ final class ProfileImageService: ProfileImageServiceProtocol {
             return
         }
         
-        guard var urlComponents = URLComponents(string: Constants.defaultBaseURL) else {
-            return
-        }
-        urlComponents.path = "/users/\(username)"
-        
-        guard let url = urlComponents.url else {
-            assertionFailure("Failed to create URL")
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        guard let token else { return }
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        guard let request = profileImageRequest(username) else { return }
         
         let task = session.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
+            guard let self else { return }
+            
             switch result {
             case .success(let body):
-                self?.avatarURL = body.profileImage.small
-                guard let avatarURL = self?.avatarURL else { return }
+                avatarURL = body.profileImage.small
+                guard let avatarURL = avatarURL else { return }
                 completion(.success(avatarURL))
                 
                 NotificationCenter.default
@@ -57,9 +47,26 @@ final class ProfileImageService: ProfileImageServiceProtocol {
             case .failure(let error):
                 completion(.failure(error))
             }
-            self?.task = nil
+            self.task = nil
         }
         self.task = task
-        task.resume()
+    }
+}
+
+private extension ProfileImageService {
+    func profileImageRequest(_ username: String) -> URLRequest? {
+        guard let token else {
+            assertionFailure("Failed to get token")
+            return nil
+        }
+        
+        var request = URLRequest.makeHTTPRequest(
+            baseURL: Constants.defaultBaseURL,
+            path: "/users/\(username)",
+            httpMethod: "GET"
+        )
+        request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        return request
     }
 }
