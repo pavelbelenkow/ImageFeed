@@ -15,6 +15,7 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let oauth2TokenStorage = OAuth2TokenStorage.shared
+    private var alertPresenter: AlertPresenterProtocol?
     
     private lazy var splashLogoView: UIImageView = {
         let imageView = UIImageView()
@@ -30,6 +31,7 @@ final class SplashViewController: UIViewController {
         super.viewDidAppear(animated)
         view.backgroundColor = UIColor(named: "background")
         addSplashLogoView()
+        alertPresenter = AlertPresenter(viewController: self)
         checkAuthorization()
     }
     
@@ -56,10 +58,11 @@ final class SplashViewController: UIViewController {
         
         profileService.fetchProfile(token) { [weak self] result in
             guard let self else { return }
+            
+            UIBlockingProgressHUD.dismiss()
             switch result {
             case .success(let profile):
                 self.switchToTabBarController()
-                UIBlockingProgressHUD.dismiss()
                 profileImageService.fetchProfileImageURL(username: profile.username) { _ in }
             case .failure(let error):
                 let alert = AlertModel(
@@ -71,7 +74,7 @@ final class SplashViewController: UIViewController {
                     self.fetchProfile(token: token)
                 }
                 
-                AlertPresenter(viewController: self).showAlert(model: alert)
+                alertPresenter?.showAlert(model: alert)
             }
         }
     }
