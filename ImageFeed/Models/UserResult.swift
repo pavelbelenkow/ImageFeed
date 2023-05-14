@@ -9,10 +9,6 @@ import Foundation
 
 struct UserResult: Decodable {
     let profileImage: Image
-    
-    private enum CodingKeys: String, CodingKey {
-        case profileImage = "profile_image"
-    }
 }
 
 struct Image: Decodable {
