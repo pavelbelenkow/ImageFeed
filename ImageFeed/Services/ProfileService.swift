@@ -32,8 +32,8 @@ final class ProfileService: ProfileServiceProtocol {
             
             switch result {
             case .success(let body):
-                profile = convertProfileResult(from: body)
-                guard let profile = profile else { return }
+                let profile = convertProfileResult(from: body)
+                self.profile = profile
                 completion(.success(profile))
             case .failure(let error):
                 completion(.failure(error))

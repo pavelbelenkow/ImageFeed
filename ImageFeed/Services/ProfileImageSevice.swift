@@ -34,8 +34,8 @@ final class ProfileImageService: ProfileImageServiceProtocol {
             
             switch result {
             case .success(let body):
-                avatarURL = body.profileImage.small
-                guard let avatarURL = avatarURL else { return }
+                let avatarURL = body.profileImage.small
+                self.avatarURL = avatarURL
                 completion(.success(avatarURL))
                 
                 NotificationCenter.default
