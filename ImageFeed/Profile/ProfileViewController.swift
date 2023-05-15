@@ -1,8 +1,13 @@
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
     // MARK: - Properties
+    
+    private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
@@ -59,6 +64,20 @@ final class ProfileViewController: UIViewController {
         addLoginNameLabel()
         addDescriptionLabel()
         addLogoutButton()
+        
+        guard let profile = profileService.profile else { return }
+        updateProfileDetails(profile: profile)
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self else { return }
+                self.updateUserImage()
+            }
+        updateUserImage()
     }
     
     // MARK: - Methods
@@ -114,10 +133,25 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
+    private func updateProfileDetails(profile: Profile) {
+        fullNameLabel.text = profile.name
+        loginNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
+    
+    private func updateUserImage() {
+        guard
+            let profileImageURL = profileImageService.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        userImageView.kf.setImage(with: url)
+    }
+    
     // MARK: - Objective-C methods
     
     @objc
     private func didTapLogoutButton() {
+        userImageView.image = UIImage(named: "UserPicStub")
         fullNameLabel.text = nil
         loginNameLabel.text = nil
         descriptionLabel.text = nil

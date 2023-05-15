@@ -11,15 +11,43 @@ final class OAuth2Service: OAuth2ServiceProtocol {
     
     static let shared = OAuth2Service()
     
-    private let decoder = JSONDecoder()
     private let session = URLSession.shared
+    private var task: URLSessionTask?
+    private var lastCode: String?
     
     func fetchAuthToken(
         _ code: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
+        assert(Thread.isMainThread)
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
+        
+        guard let request = oauth2Request(code) else { return }
+        
+        let task = session.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let body):
+                completion(.success(body.accessToken))
+            case .failure(let error):
+                completion(.failure(error))
+                self.lastCode = nil
+            }
+            self.task = nil
+        }
+        self.task = task
+    }
+}
+
+private extension OAuth2Service {
+    func oauth2Request(_ code: String) -> URLRequest? {
+        
         guard var urlComponents = URLComponents(string: Constants.unsplashTokenURL) else {
-            return
+            assertionFailure("Failed to get URL from String")
+            return nil
         }
         
         urlComponents.queryItems = [
@@ -30,35 +58,13 @@ final class OAuth2Service: OAuth2ServiceProtocol {
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
         
-        guard let url = urlComponents.url else { return }
+        guard let url = urlComponents.url else {
+            assertionFailure("Failed to create URL")
+            return nil
+        }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
-        let task = fetchDataTask(for: request) { result in
-            switch result {
-            case .success(let body):
-                completion(.success(body.accessToken))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-        task.resume()
-    }
-}
-
-extension OAuth2Service {
-    func fetchDataTask(
-        for request: URLRequest,
-        completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void
-    ) -> URLSessionDataTask {
-        session.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<OAuthTokenResponseBody, Error> in
-                Result {
-                    try self.decoder.decode(OAuthTokenResponseBody.self, from: data)
-                }
-            }
-            completion(response)
-        }
+        return request
     }
 }
