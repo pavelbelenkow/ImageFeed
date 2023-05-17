@@ -18,7 +18,7 @@ final class ImagesListService: ImagesListServiceProtocol {
     private var lastLoadedPage: Int?
     private var task: URLSessionTask?
     
-    func fetchPhotosNextPage(completion: @escaping (Result<Photo, Error>) -> Void) {
+    func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void) {
         assert(Thread.isMainThread)
         if task != nil {
             task?.cancel()
@@ -27,21 +27,20 @@ final class ImagesListService: ImagesListServiceProtocol {
     
         guard let request = photoRequest() else { return }
         
-        let task = session.objectTask(for: request) { [weak self] (result: Result<PhotoResult, Error>) in
+        let task = session.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             guard let self else { return }
             
             switch result {
             case .success(let photoResult):
-                let photo = convertPhoto(from: photoResult)
-                completion(.success(photo))
-                DispatchQueue.main.async {
-                    self.photos.append(photo)
+                photoResult.forEach { onePhotoResult in
+                    self.photos.append(self.convertPhoto(from: onePhotoResult))
                 }
                 
                 NotificationCenter.default
                     .post(
                         name: ImagesListService.didChangeNotification,
-                        object: self
+                        object: self,
+                        userInfo: ["URL" : photos.count]
                     )
             case .failure(let error):
                 completion(.failure(error))
@@ -68,7 +67,8 @@ private extension ImagesListService {
         urlComponents.path = "/photos"
         urlComponents.queryItems = [URLQueryItem(name: "page", value: String(lastLoadedPage ?? 1))]
         
-        guard let url = urlComponents.url else {
+        guard let url = urlComponents.url,
+              let token = token else {
             assertionFailure("Failed to create URL")
             return nil
         }

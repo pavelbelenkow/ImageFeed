@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ImagesListServiceProtocol {
-    func fetchPhotosNextPage(completion: @escaping (Result<Photo, Error>) -> Void)
+    func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void)
 }
