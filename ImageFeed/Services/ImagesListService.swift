@@ -24,14 +24,22 @@ final class ImagesListService: ImagesListServiceProtocol {
             task?.cancel()
             return
         }
-    
-        guard let request = photoRequest() else { return }
+        
+        let nextPage: Int
+        if let lastLoadedPage {
+            nextPage = lastLoadedPage + 1
+        } else {
+            nextPage = 1
+        }
+        
+        guard let request = photoRequest(for: nextPage) else { return }
         
         let task = session.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             guard let self else { return }
             
             switch result {
             case .success(let photoResult):
+                self.lastLoadedPage = nextPage
                 photoResult.forEach { onePhotoResult in
                     self.photos.append(self.convertPhoto(from: onePhotoResult))
                 }
@@ -53,22 +61,18 @@ final class ImagesListService: ImagesListServiceProtocol {
 
 private extension ImagesListService {
     
-    func photoRequest() -> URLRequest? {
-        if var lastLoadedPage = lastLoadedPage {
-            lastLoadedPage += 1
-        } else {
-            lastLoadedPage = 1
-        }
-        
+    func photoRequest(for page: Int) -> URLRequest? {
         guard var urlComponents = URLComponents(string: Constants.defaultBaseURL) else {
             assertionFailure("Failed to get URL from String")
             return nil
         }
         urlComponents.path = "/photos"
-        urlComponents.queryItems = [URLQueryItem(name: "page", value: String(lastLoadedPage ?? 1))]
+        urlComponents.queryItems = [URLQueryItem(name: "page", value: "\(page)")]
         
-        guard let url = urlComponents.url,
-              let token = token else {
+        guard
+            let url = urlComponents.url,
+            let token = token
+        else {
             assertionFailure("Failed to create URL")
             return nil
         }
