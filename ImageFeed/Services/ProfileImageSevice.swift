@@ -55,7 +55,7 @@ final class ProfileImageService: ProfileImageServiceProtocol {
 
 private extension ProfileImageService {
     func profileImageRequest(_ username: String) -> URLRequest? {
-        guard let token else {
+        guard let token = token else {
             assertionFailure("Failed to get token")
             return nil
         }
