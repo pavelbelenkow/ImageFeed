@@ -1,4 +1,5 @@
 import UIKit
+import ProgressHUD
 
 final class ImagesListViewController: UIViewController {
     
@@ -12,12 +13,14 @@ final class ImagesListViewController: UIViewController {
     private let imagesListService = ImagesListService.shared
     private var photos: [Photo] = []
     private var imagesListServiceObserver: NSObjectProtocol?
+    private var alertPresenter: AlertPresenterProtocol?
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        alertPresenter = AlertPresenter(viewController: self)
         
         imagesListServiceObserver = NotificationCenter.default
             .addObserver(
@@ -62,6 +65,36 @@ private extension ImagesListViewController {
     }
 }
 
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+            guard let self else { return }
+            UIBlockingProgressHUD.dismiss()
+            
+            switch result {
+            case .success:
+                self.photos = self.imagesListService.photos
+                cell.setIsLiked(self.photos[indexPath.row].isLiked)
+            case .failure(let error):
+                let alert = AlertModel(
+                    title: "Что-то пошло не так :(",
+                    message: error.localizedDescription,
+                    buttonText: "Ок"
+                ) { [weak self] in
+                    guard let self else { return }
+                    self.imageListCellDidTapLike(cell)
+                }
+                
+                alertPresenter?.showAlert(model: alert)
+            }
+        }
+    }
+}
+
 extension ImagesListViewController: UITableViewDataSource {
     
     // MARK: - TableViewDataSource methods
@@ -77,6 +110,7 @@ extension ImagesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        imageListCell.delegate = self
         imageListCell.configure(from: photos, in: tableView, with: indexPath)
         return imageListCell
     }

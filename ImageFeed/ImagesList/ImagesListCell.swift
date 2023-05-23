@@ -12,6 +12,13 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - Properties
     
     static let reuseIdentifier = "ImagesListCell"
+    weak var delegate: ImagesListCellDelegate?
+    
+    // MARK: - Actions
+    
+    @IBAction private func likeButtonClicked() {
+        delegate?.imageListCellDidTapLike(self)
+    }
 }
 
 extension ImagesListCell {
@@ -27,8 +34,7 @@ extension ImagesListCell {
         guard
             let imagesListURL = photos[indexPath.row].thumbImageURL,
             let url = URL(string: imagesListURL),
-            let date = photos[indexPath.row].createdAt,
-            let isLiked = photos[indexPath.row].isLiked
+            let date = photos[indexPath.row].createdAt
         else { return }
         
         cellImage.kf.indicatorType = .activity
@@ -41,8 +47,11 @@ extension ImagesListCell {
         }
 
         dateLabel.text = date.dateTimeString
-        
-        let likeImage = isLiked ? UIImage(named: "LikeButtonActive") : UIImage(named: "LikeButtonNoActive")
+        self.setIsLiked(photos[indexPath.row].isLiked)
+    }
+    
+    func setIsLiked(_ state: Bool) {
+        let likeImage = state ? UIImage(named: "LikeButtonActive") : UIImage(named: "LikeButtonNoActive")
         likeButton.setImage(likeImage, for: .normal)
     }
 }
