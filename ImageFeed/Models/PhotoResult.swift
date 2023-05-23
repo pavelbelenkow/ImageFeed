@@ -24,3 +24,5 @@ struct UrlsResult: Decodable {
     let small: String
     let thumb: String
 }
+
+struct PhotoLikeResult: Decodable {}

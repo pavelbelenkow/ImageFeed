@@ -57,6 +57,51 @@ final class ImagesListService: ImagesListServiceProtocol {
         }
         self.task = task
     }
+    
+    func changeLike(
+        photoId: String,
+        isLike: Bool,
+        _ completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        assert(Thread.isMainThread)
+        if task != nil {
+            task?.cancel()
+            return
+        }
+        
+        guard let token = token else {
+            assertionFailure("Failed to get token")
+            return
+        }
+        
+        let state = isLike ? "POST" : "DELETE"
+        
+        var request = URLRequest.makeHTTPRequest(
+            baseURL: Constants.defaultBaseURL,
+            path: "/photos/\(photoId)/like",
+            httpMethod: state
+        )
+        request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        guard let request else { return }
+        
+        let task = session.objectTask(for: request) { [weak self] (result: Result<PhotoLikeResult, Error>) in
+            guard let self else { return }
+            
+            switch result {
+            case .success(_):
+                if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+                    let photo = self.photos[index]
+                    self.photos[index].isLiked = !photo.isLiked
+                    completion(.success(()))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+            self.task = nil
+        }
+        self.task = task
+    }
 }
 
 private extension ImagesListService {
