@@ -62,7 +62,8 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 let alert = AlertModel(
                     title: "Что-то пошло не так :(",
                     message: error.localizedDescription,
-                    buttonText: "Ок"
+                    primaryButtonText: "Ок",
+                    secondaryButtonText: nil
                 ) { [ weak self] in
                     guard let self else { return }
                     self.webViewViewController(vc, didAuthenticateWithCode: code)

@@ -21,14 +21,24 @@ final class AlertPresenter: AlertPresenterProtocol {
             preferredStyle: .alert
         )
         
-        let action = UIAlertAction(
-            title: model.buttonText,
+        let primaryAction = UIAlertAction(
+            title: model.primaryButtonText,
             style: .default
         ) { _ in
             model.completion()
         }
         
-        alert.addAction(action)
+        let secondaryAction = UIAlertAction(
+            title: model.secondaryButtonText,
+            style: .cancel
+        )
+        
+        if model.secondaryButtonText != nil {
+            alert.addAction(secondaryAction)
+        }
+        
+        alert.addAction(primaryAction)
         viewController?.present(alert, animated: true)
     }
+    
 }

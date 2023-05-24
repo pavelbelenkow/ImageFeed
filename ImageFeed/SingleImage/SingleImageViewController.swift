@@ -1,4 +1,6 @@
 import UIKit
+import Kingfisher
+import ProgressHUD
 
 final class SingleImageViewController: UIViewController {
     
@@ -9,11 +11,12 @@ final class SingleImageViewController: UIViewController {
     
     // MARK: - Properties
     
-    var image: UIImage! {
+    private var alertPresenter: AlertPresenterProtocol?
+    
+    var image: URL! {
         didSet {
             guard isViewLoaded else { return }
-            imageView.image = image
-            rescaleImageInScrollView(image: image)
+            setImage()
         }
     }
     
@@ -21,11 +24,11 @@ final class SingleImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = image
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
         scrollView.decelerationRate = UIScrollView.DecelerationRate.fast
-        rescaleImageInScrollView(image: image)
+        alertPresenter = AlertPresenter(viewController: self)
+        setImage()
     }
     
     // MARK: - Actions
@@ -36,7 +39,7 @@ final class SingleImageViewController: UIViewController {
     
     @IBAction private func didTapShareButton() {
         let activityController = UIActivityViewController(
-            activityItems: [image as Any],
+            activityItems: [imageView.image as Any],
             applicationActivities: nil
         )
         present(activityController, animated: true)
@@ -45,17 +48,45 @@ final class SingleImageViewController: UIViewController {
     @IBAction func didDoubleTapImage(_ sender: UITapGestureRecognizer) {
         if scrollView.zoomScale < 1 {
             scrollView.zoom(
-                to: zoomRectangle(
-                    scale: scrollView.maximumZoomScale,
-                    center: sender.location(in: sender.view)),
+                to: zoomRectangle(center: sender.location(in: sender.view)),
                 animated: true
             )
         } else {
+            guard let image = imageView.image else { return }
             rescaleImageInScrollView(image: image)
         }
     }
     
     // MARK: - Methods
+    
+    private func setImage() {
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: image) { [weak self] result in
+            guard let self else { return }
+            UIBlockingProgressHUD.dismiss()
+            
+            switch result {
+            case .success(let imageResult):
+                self.rescaleImageInScrollView(image: imageResult.image)
+            case .failure:
+                self.showError()
+            }
+        }
+    }
+    
+    private func showError() {
+        let alert = AlertModel(
+            title: "Что-то пошло не так :(",
+            message: "Не удалось загрузить картинку",
+            primaryButtonText: "Попробовать ещё раз",
+            secondaryButtonText: "Отменить"
+        ) { [weak self] in
+            guard let self else { return }
+            self.setImage()
+        }
+        
+        alertPresenter?.showAlert(model: alert)
+    }
     
     private func rescaleImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
@@ -90,10 +121,10 @@ final class SingleImageViewController: UIViewController {
         )
     }
     
-    private func zoomRectangle(scale: CGFloat, center: CGPoint) -> CGRect {
+    private func zoomRectangle(center: CGPoint) -> CGRect {
         var zoomRect = CGRect.zero
-        zoomRect.size.height = imageView.frame.size.height / 3.0
-        zoomRect.size.width  = imageView.frame.size.width  / 3.0
+        zoomRect.size.height = scrollView.frame.size.height / 3.0
+        zoomRect.size.width  = scrollView.frame.size.width  / 3.0
         zoomRect.origin.x = center.x - (zoomRect.size.width / 2.0)
         zoomRect.origin.y = center.y - (zoomRect.size.height / 2.0)
         
@@ -114,7 +145,8 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-        if scale < 0.7 {
+        if scale < 0.5 {
+            guard let image = imageView.image else { return }
             rescaleImageInScrollView(image: image)
         }
     }

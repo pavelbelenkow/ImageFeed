@@ -37,9 +37,12 @@ final class ImagesListViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showSingleImageSegueIdentifier {
             guard let viewController = segue.destination as? SingleImageViewController,
-                  let indexPath = sender as? IndexPath else { return }
-            let image = UIImage()
-            viewController.image = image
+                  let indexPath = sender as? IndexPath,
+                  let fullImageStringURL = photos[indexPath.row].largeImageURL,
+                  let fullImageURL = URL(string: fullImageStringURL)
+            else { return }
+            
+            viewController.image = fullImageURL
         } else {
             super.prepare(for: segue, sender: sender)
         }
@@ -83,7 +86,8 @@ extension ImagesListViewController: ImagesListCellDelegate {
                 let alert = AlertModel(
                     title: "Что-то пошло не так :(",
                     message: error.localizedDescription,
-                    buttonText: "Ок"
+                    primaryButtonText: "Ок",
+                    secondaryButtonText: nil
                 ) { [weak self] in
                     guard let self else { return }
                     self.imageListCellDidTapLike(cell)
