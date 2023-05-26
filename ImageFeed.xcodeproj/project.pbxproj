@@ -50,6 +50,7 @@
 		59C1F16529E84E8000C071A1 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C1F16429E84E8000C071A1 /* Constants.swift */; };
 		59D177E829EB303B002ADD68 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D177E729EB303B002ADD68 /* AuthViewController.swift */; };
 		59D177EB29EB4272002ADD68 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D177EA29EB4272002ADD68 /* WebViewViewController.swift */; };
+		59DDF2EA2A1EABFF00DF7840 /* WKWebView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DDF2E92A1EABFF00DF7840 /* WKWebView+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +96,7 @@
 		59C1F16429E84E8000C071A1 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		59D177E729EB303B002ADD68 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		59D177EA29EB4272002ADD68 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
+		59DDF2E92A1EABFF00DF7840 /* WKWebView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WKWebView+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				592FA59429CA09BD008BF730 /* GradientView.swift */,
 				59A50CF02A1023A900057645 /* URLRequest+Extensions.swift */,
 				59717E3C29F2E9E7007DAE4C /* URLSession+Extensions.swift */,
+				59DDF2E92A1EABFF00DF7840 /* WKWebView+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				5936333929F2EB2B001BE590 /* SplashViewController.swift in Sources */,
 				5987B18429FB7240007DA4F2 /* AlertPresenter.swift in Sources */,
 				59B2C80429EF03BC00BA1909 /* OAuth2TokenStorage.swift in Sources */,
+				59DDF2EA2A1EABFF00DF7840 /* WKWebView+Extensions.swift in Sources */,
 				59890CCF29EC8F3000F56A5C /* WebViewViewControllerDelegate.swift in Sources */,
 				5969CB822A0867240036D471 /* UserResult.swift in Sources */,
 				59872E182A0054D9000F2BC6 /* ProfileServiceProtocol.swift in Sources */,

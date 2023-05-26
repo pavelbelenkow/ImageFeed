@@ -1,4 +1,5 @@
 import UIKit
+import WebKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
@@ -7,6 +8,7 @@ final class ProfileViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private var token = OAuth2TokenStorage.shared
     private var profileImageServiceObserver: NSObjectProtocol?
     
     private lazy var userImageView: UIImageView = {
@@ -151,9 +153,11 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapLogoutButton() {
-        userImageView.image = UIImage(named: "UserPicStub")
-        fullNameLabel.text = nil
-        loginNameLabel.text = nil
-        descriptionLabel.text = nil
+        token.removeToken()
+        WKWebView.clean()
+        
+        guard let window = UIApplication.shared.windows.first else { return }
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
     }
 }
