@@ -21,6 +21,24 @@ final class AlertPresenter: AlertPresenterProtocol {
             preferredStyle: .alert
         )
         
+        let action = UIAlertAction(
+            title: model.buttonText,
+            style: .default
+        ) { _ in
+            model.completion()
+        }
+        
+        alert.addAction(action)
+        viewController?.present(alert, animated: true)
+    }
+    
+    func showAlertWithTwoActions(model: AlertWithTwoActionsModel) {
+        let alert = UIAlertController(
+            title: model.title,
+            message: model.message,
+            preferredStyle: .alert
+        )
+        
         let primaryAction = UIAlertAction(
             title: model.primaryButtonText,
             style: .default
@@ -33,12 +51,8 @@ final class AlertPresenter: AlertPresenterProtocol {
             style: .cancel
         )
         
-        if model.secondaryButtonText != nil {
-            alert.addAction(secondaryAction)
-        }
-        
         alert.addAction(primaryAction)
+        alert.addAction(secondaryAction)
         viewController?.present(alert, animated: true)
     }
-    
 }

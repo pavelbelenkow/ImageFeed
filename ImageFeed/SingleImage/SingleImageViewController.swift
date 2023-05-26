@@ -75,7 +75,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     private func showError() {
-        let alert = AlertModel(
+        let alert = AlertWithTwoActionsModel(
             title: "Что-то пошло не так :(",
             message: "Не удалось загрузить картинку",
             primaryButtonText: "Попробовать ещё раз",
@@ -85,7 +85,7 @@ final class SingleImageViewController: UIViewController {
             self.setImage()
         }
         
-        alertPresenter?.showAlert(model: alert)
+        alertPresenter?.showAlertWithTwoActions(model: alert)
     }
     
     private func rescaleImageInScrollView(image: UIImage) {

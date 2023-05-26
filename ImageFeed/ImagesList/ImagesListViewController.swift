@@ -86,8 +86,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
                 let alert = AlertModel(
                     title: "Что-то пошло не так :(",
                     message: error.localizedDescription,
-                    primaryButtonText: "Ок",
-                    secondaryButtonText: nil
+                    buttonText: "Ок"
                 ) { [weak self] in
                     guard let self else { return }
                     self.imageListCellDidTapLike(cell)

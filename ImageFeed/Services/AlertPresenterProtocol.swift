@@ -9,4 +9,5 @@ import UIKit
 
 protocol AlertPresenterProtocol: AnyObject {
     func showAlert(model: AlertModel)
+    func showAlertWithTwoActions(model: AlertWithTwoActionsModel)
 }
