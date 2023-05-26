@@ -63,13 +63,13 @@ final class SplashViewController: UIViewController {
             switch result {
             case .success(let profile):
                 self.switchToTabBarController()
-                profileImageService.fetchProfileImageURL(username: profile.username) { _ in }
+                profileImageService.fetchProfileImageURL(token: token, username: profile.username) { _ in }
+                UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 let alert = AlertModel(
                     title: "Не удалось получить данные профиля",
                     message: error.localizedDescription,
-                    primaryButtonText: "Ок",
-                    secondaryButtonText: nil
+                    buttonText: "Ок"
                 ) { [weak self] in
                     guard let self else { return }
                     self.fetchProfile(token: token)
