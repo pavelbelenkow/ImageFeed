@@ -16,6 +16,7 @@
 		593FDCB62A0D7998000F3B02 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593FDCB52A0D7998000F3B02 /* TabBarController.swift */; };
 		59489B042A1D70A3002F2EA7 /* ImagesListCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59489B032A1D70A3002F2EA7 /* ImagesListCellDelegate.swift */; };
 		594D03D529FF05E100D107CA /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D03D429FF05E100D107CA /* UIBlockingProgressHUD.swift */; };
+		595438932A22B5DE00897FE8 /* CAGradientLayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595438922A22B5DE00897FE8 /* CAGradientLayer+Extensions.swift */; };
 		5969CB7E2A0866400036D471 /* ProfileImageSevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5969CB7D2A0866400036D471 /* ProfileImageSevice.swift */; };
 		5969CB802A0866740036D471 /* ProfileImageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5969CB7F2A0866740036D471 /* ProfileImageServiceProtocol.swift */; };
 		5969CB822A0867240036D471 /* UserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5969CB812A0867240036D471 /* UserResult.swift */; };
@@ -60,6 +61,7 @@
 		593FDCB52A0D7998000F3B02 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		59489B032A1D70A3002F2EA7 /* ImagesListCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCellDelegate.swift; sourceTree = "<group>"; };
 		594D03D429FF05E100D107CA /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
+		595438922A22B5DE00897FE8 /* CAGradientLayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extensions.swift"; sourceTree = "<group>"; };
 		5969CB7D2A0866400036D471 /* ProfileImageSevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageSevice.swift; sourceTree = "<group>"; };
 		5969CB7F2A0866740036D471 /* ProfileImageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageServiceProtocol.swift; sourceTree = "<group>"; };
 		5969CB812A0867240036D471 /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 		59BD01CB29CB89D400EA1DBC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				595438922A22B5DE00897FE8 /* CAGradientLayer+Extensions.swift */,
 				59BD01C929CB88D100EA1DBC /* Date+Extensions.swift */,
 				592FA59429CA09BD008BF730 /* GradientView.swift */,
 				59A50CF02A1023A900057645 /* URLRequest+Extensions.swift */,
@@ -357,6 +360,7 @@
 				5969CB822A0867240036D471 /* UserResult.swift in Sources */,
 				59872E182A0054D9000F2BC6 /* ProfileServiceProtocol.swift in Sources */,
 				59BD01CA29CB88D100EA1DBC /* Date+Extensions.swift in Sources */,
+				595438932A22B5DE00897FE8 /* CAGradientLayer+Extensions.swift in Sources */,
 				5987B18629FB724F007DA4F2 /* AlertPresenterProtocol.swift in Sources */,
 				5987B18829FB7285007DA4F2 /* AlertModel.swift in Sources */,
 				59872E1E2A0056B5000F2BC6 /* Profile.swift in Sources */,

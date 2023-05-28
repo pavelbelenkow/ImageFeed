@@ -31,6 +31,14 @@ extension ImagesListCell {
     }
     
     func configure(from photos: [Photo], in tableView: UITableView, with indexPath: IndexPath) {
+        cellImage.layer.addSublayer(
+            CAGradientLayer.addGradientAnimation(
+                width: tableView.bounds.width - 32,
+                height: photos[indexPath.row].size.height * (tableView.bounds.width - 32),
+                radius: 16
+            )
+        )
+        
         guard
             let imagesListURL = photos[indexPath.row].thumbImageURL,
             let url = URL(string: imagesListURL),
@@ -43,6 +51,7 @@ extension ImagesListCell {
             guard let self else { return }
             self.cellImage.kf.indicatorType = .none
             self.cellImage.contentMode = .scaleAspectFill
+            self.cellImage.layer.sublayers?.removeAll()
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }
 
