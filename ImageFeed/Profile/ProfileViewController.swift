@@ -10,6 +10,7 @@ final class ProfileViewController: UIViewController {
     private let profileImageService = ProfileImageService.shared
     private var token = OAuth2TokenStorage.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var alertPresenter: AlertPresenterProtocol?
     
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
@@ -61,6 +62,7 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "background")
+        alertPresenter = AlertPresenter(viewController: self)
         addAnimationLayers()
         
         addUserImageView()
@@ -168,15 +170,29 @@ final class ProfileViewController: UIViewController {
         descriptionLabel.layer.sublayers?.removeAll()
     }
     
-    // MARK: - Objective-C methods
-    
-    @objc
-    private func didTapLogoutButton() {
+    private func logout() {
         token.removeToken()
         WKWebView.clean()
         
         guard let window = UIApplication.shared.windows.first else { return }
         let splashViewController = SplashViewController()
         window.rootViewController = splashViewController
+    }
+    
+    // MARK: - Objective-C methods
+    
+    @objc
+    private func didTapLogoutButton() {
+        let alert = AlertWithTwoActionsModel(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            primaryButtonText: "Да",
+            secondaryButtonText: "Нет"
+        ) { [weak self] in
+            guard let self else { return }
+            self.logout()
+        }
+        
+        alertPresenter?.showAlertWithTwoActions(model: alert)
     }
 }
