@@ -20,10 +20,7 @@ final class ImagesListService: ImagesListServiceProtocol {
     
     func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void) {
         assert(Thread.isMainThread)
-        if task != nil {
-            task?.cancel()
-            return
-        }
+        if task != nil { return }
         
         let nextPage: Int
         if let lastLoadedPage {

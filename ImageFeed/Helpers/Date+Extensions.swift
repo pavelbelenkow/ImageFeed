@@ -16,6 +16,6 @@ extension Date {
     var dateTimeString: String { dateFormatter.string(from: self) }
     
     static func convertStringToDate(_ string: String) -> Date? {
-       dateFormatterISO.date(from: string)
+        dateFormatterISO.date(from: string)
     }
 }
