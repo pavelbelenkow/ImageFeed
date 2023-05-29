@@ -41,15 +41,7 @@ final class SplashViewController: UIViewController {
         if let token = oauth2TokenStorage.token {
             fetchProfile(token: token)
         } else {
-            let storyboard = UIStoryboard(name: "Main", bundle: .main)
-            
-            guard
-                let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController
-            else { return }
-            
-            authViewController.delegate = self
-            authViewController.modalPresentationStyle = .fullScreen
-            present(authViewController, animated: true)
+            switchToAuthViewController()
         }
     }
     
@@ -63,7 +55,8 @@ final class SplashViewController: UIViewController {
             switch result {
             case .success(let profile):
                 self.switchToTabBarController()
-                profileImageService.fetchProfileImageURL(username: profile.username) { _ in }
+                profileImageService.fetchProfileImageURL(token: token, username: profile.username) { _ in }
+                UIBlockingProgressHUD.dismiss()
             case .failure(let error):
                 let alert = AlertModel(
                     title: "Не удалось получить данные профиля",
@@ -71,7 +64,7 @@ final class SplashViewController: UIViewController {
                     buttonText: "Ок"
                 ) { [weak self] in
                     guard let self else { return }
-                    self.fetchProfile(token: token)
+                    self.switchToAuthViewController()
                 }
                 
                 alertPresenter?.showAlert(model: alert)
@@ -88,6 +81,18 @@ final class SplashViewController: UIViewController {
             .instantiateViewController(withIdentifier: "TabBarViewController")
         
         window.rootViewController = tabBarController
+    }
+    
+    private func switchToAuthViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        
+        guard
+            let authViewController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController
+        else { return }
+        
+        authViewController.delegate = self
+        authViewController.modalPresentationStyle = .fullScreen
+        present(authViewController, animated: true)
     }
     
     private func addSplashLogoView() {

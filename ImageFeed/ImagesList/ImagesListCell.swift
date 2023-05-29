@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
     
@@ -11,18 +12,55 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - Properties
     
     static let reuseIdentifier = "ImagesListCell"
+    weak var delegate: ImagesListCellDelegate?
+    
+    // MARK: - Actions
+    
+    @IBAction private func likeButtonClicked() {
+        delegate?.imageListCellDidTapLike(self)
+    }
 }
 
 extension ImagesListCell {
     
     // MARK: - Methods
     
-   func configure(image: UIImage?, date: String, isLiked: Bool) {
-        cellImage.image = image
-        cellImage.contentMode = .scaleAspectFill
-        dateLabel.text = date
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cellImage.kf.cancelDownloadTask()
+    }
+    
+    func configure(from photos: [Photo], in tableView: UITableView, with indexPath: IndexPath) {
+        cellImage.layer.addSublayer(
+            CAGradientLayer.addGradientAnimation(
+                width: tableView.bounds.width - 32,
+                height: photos[indexPath.row].size.height * (tableView.bounds.width - 32),
+                radius: 16
+            )
+        )
         
-        let likeImage = isLiked ? UIImage(named: "LikeButtonActive") : UIImage(named: "LikeButtonNoActive")
+        guard
+            let imagesListURL = photos[indexPath.row].thumbImageURL,
+            let url = URL(string: imagesListURL),
+            let date = photos[indexPath.row].createdAt
+        else { return }
+        
+        cellImage.kf.indicatorType = .activity
+        cellImage.kf.setImage(with: url, placeholder: UIImage(named: "CardStub")
+        ) { [weak self] _ in
+            guard let self else { return }
+            self.cellImage.kf.indicatorType = .none
+            self.cellImage.contentMode = .scaleAspectFill
+            self.cellImage.layer.sublayers?.removeAll()
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+
+        dateLabel.text = date.dateTimeString
+        self.setIsLiked(photos[indexPath.row].isLiked)
+    }
+    
+    func setIsLiked(_ state: Bool) {
+        let likeImage = state ? UIImage(named: "LikeButtonActive") : UIImage(named: "LikeButtonNoActive")
         likeButton.setImage(likeImage, for: .normal)
     }
 }

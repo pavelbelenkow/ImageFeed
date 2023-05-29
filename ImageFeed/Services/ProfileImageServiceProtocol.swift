@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ProfileImageServiceProtocol {
-    func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void)
+    func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<String, Error>) -> Void)
 }

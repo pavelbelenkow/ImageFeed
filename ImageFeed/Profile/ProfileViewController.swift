@@ -1,4 +1,5 @@
 import UIKit
+import WebKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
@@ -7,7 +8,9 @@ final class ProfileViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private var token = OAuth2TokenStorage.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var alertPresenter: AlertPresenterProtocol?
     
     private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
@@ -59,6 +62,9 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "background")
+        alertPresenter = AlertPresenter(viewController: self)
+        addAnimationLayers()
+        
         addUserImageView()
         addFullNameLabel()
         addLoginNameLabel()
@@ -137,6 +143,7 @@ final class ProfileViewController: UIViewController {
         fullNameLabel.text = profile.name
         loginNameLabel.text = profile.loginName
         descriptionLabel.text = profile.bio
+        removeAnimationLayers()
     }
     
     private func updateUserImage() {
@@ -144,16 +151,48 @@ final class ProfileViewController: UIViewController {
             let profileImageURL = profileImageService.avatarURL,
             let url = URL(string: profileImageURL)
         else { return }
-        userImageView.kf.setImage(with: url)
+        userImageView.kf.setImage(with: url,placeholder: UIImage(named: "UserPicStub")) { [weak self] _ in
+            guard let self else { return }
+            self.userImageView.layer.sublayers?.removeAll()
+        }
+    }
+    
+    private func addAnimationLayers() {
+        userImageView.layer.addSublayer(CAGradientLayer.addGradientAnimation(width: 70, height: 70, radius: 35))
+        fullNameLabel.layer.addSublayer(CAGradientLayer.addGradientAnimation(width: 223, height: 27, radius: 14))
+        loginNameLabel.layer.addSublayer(CAGradientLayer.addGradientAnimation(width: 89, height: 18, radius: 9))
+        descriptionLabel.layer.addSublayer(CAGradientLayer.addGradientAnimation(width: 67, height: 18, radius: 9))
+    }
+    
+    private func removeAnimationLayers() {
+        fullNameLabel.layer.sublayers?.removeAll()
+        loginNameLabel.layer.sublayers?.removeAll()
+        descriptionLabel.layer.sublayers?.removeAll()
+    }
+    
+    private func logout() {
+        token.removeToken()
+        WKWebView.clean()
+        
+        guard let window = UIApplication.shared.windows.first else { return }
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
     }
     
     // MARK: - Objective-C methods
     
     @objc
     private func didTapLogoutButton() {
-        userImageView.image = UIImage(named: "UserPicStub")
-        fullNameLabel.text = nil
-        loginNameLabel.text = nil
-        descriptionLabel.text = nil
+        let alert = AlertWithTwoActionsModel(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            primaryButtonText: "Да",
+            secondaryButtonText: "Нет"
+        ) { [weak self] in
+            guard let self else { return }
+            self.logout()
+        }
+        
+        alertPresenter?.showAlertWithTwoActions(model: alert)
     }
 }
