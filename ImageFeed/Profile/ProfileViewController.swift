@@ -21,7 +21,7 @@ final class ProfileViewController: UIViewController {
         return imageView
     }()
     private lazy var fullNameLabel: UILabel = {
-      let label = UILabel()
+        let label = UILabel()
         label.text = "First Name Last Name"
         label.textColor = UIColor(named: "white")
         label.font = UIFont.boldSystemFont(ofSize: 23)
@@ -30,7 +30,7 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     private lazy var loginNameLabel: UILabel = {
-      let label = UILabel()
+        let label = UILabel()
         label.text = "@username"
         label.textColor = UIColor(named: "gray")
         label.font = UIFont.systemFont(ofSize: 13)
@@ -38,7 +38,7 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     private lazy var descriptionLabel: UILabel = {
-      let label = UILabel()
+        let label = UILabel()
         label.text = "Hello, World!"
         label.textColor = UIColor(named: "white")
         label.font = UIFont.systemFont(ofSize: 13)
