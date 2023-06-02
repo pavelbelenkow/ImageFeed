@@ -47,8 +47,7 @@ final class ProfileService: ProfileServiceProtocol {
 private extension ProfileService {
     
     func profileRequest(_ token: String) -> URLRequest? {
-        var request = URLRequest.makeHTTPRequest(
-            baseURL: Constants.defaultBaseURL,
+        var request = URLRequest.makeRequest(
             path: "/me",
             httpMethod: "GET"
         )

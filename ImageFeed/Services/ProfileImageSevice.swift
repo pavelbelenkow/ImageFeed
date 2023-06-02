@@ -54,14 +54,8 @@ final class ProfileImageService: ProfileImageServiceProtocol {
 }
 
 private extension ProfileImageService {
-    func profileImageRequest(_ token: String?, _ username: String) -> URLRequest? {
-        guard let token else {
-            assertionFailure("Failed to get token")
-            return nil
-        }
-        
-        var request = URLRequest.makeHTTPRequest(
-            baseURL: Constants.defaultBaseURL,
+    func profileImageRequest(_ token: String, _ username: String) -> URLRequest? {
+        var request = URLRequest.makeRequest(
             path: "/users/\(username)",
             httpMethod: "GET"
         )
