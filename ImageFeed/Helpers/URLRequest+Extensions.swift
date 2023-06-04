@@ -9,7 +9,7 @@ import Foundation
 
 extension URLRequest {
     static func makeRequest(
-        baseURL: String = Constants.defaultBaseURL,
+        baseURL: String = Constants.defaultBaseString,
         path: String,
         httpMethod: String
     ) -> URLRequest? {

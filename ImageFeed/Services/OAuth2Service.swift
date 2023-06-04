@@ -49,7 +49,7 @@ final class OAuth2Service: OAuth2ServiceProtocol {
 private extension OAuth2Service {
     func oauth2Request(_ code: String) -> URLRequest? {
         URLRequest.makeRequest(
-            baseURL: Constants.unsplashTokenURL,
+            baseURL: Constants.unsplashTokenString,
             path:
               "?client_id=\(Constants.accessKey)"
             + "&&client_secret=\(Constants.secretKey)"
