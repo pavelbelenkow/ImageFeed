@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol ProfileImageServiceProtocol {
+    func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<String, Error>) -> Void)
+}
+
 final class ProfileImageService: ProfileImageServiceProtocol {
     
     static let shared = ProfileImageService()

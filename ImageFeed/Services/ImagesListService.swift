@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol ImagesListServiceProtocol {
+    func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void)
+}
+
 final class ImagesListService: ImagesListServiceProtocol {
     
     static let shared = ImagesListService()

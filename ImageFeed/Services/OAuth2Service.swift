@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol OAuth2ServiceProtocol {
+    func fetchAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void)
+}
+
 final class OAuth2Service: OAuth2ServiceProtocol {
     
     static let shared = OAuth2Service()
