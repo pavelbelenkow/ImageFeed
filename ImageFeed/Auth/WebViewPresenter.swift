@@ -7,16 +7,16 @@
 
 import Foundation
 
-// MARK: - Protocols
+    // MARK: - Protocols
 
-protocol WebViewPresenterProtocol: AnyObject {
+public protocol WebViewPresenterProtocol: AnyObject {
     var view: WebViewViewControllerProtocol? { get set }
     func fetchAuthorization()
     func code(from url: URL) -> String?
     func didUpdateProgressValue(_ newValue: Double)
 }
 
-// MARK: - WebViewPresenter Class
+    // MARK: - WebViewPresenter Class
 
 final class WebViewPresenter: WebViewPresenterProtocol {
     
