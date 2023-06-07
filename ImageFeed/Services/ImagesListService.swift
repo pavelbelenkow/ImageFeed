@@ -9,6 +9,7 @@ import Foundation
 
 protocol ImagesListServiceProtocol {
     func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void)
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 final class ImagesListService: ImagesListServiceProtocol {
