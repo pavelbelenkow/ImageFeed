@@ -1,14 +1,16 @@
 import UIKit
-import WebKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+// MARK: Protocols
+
+protocol ProfileViewControllerProtocol: AnyObject {}
+
+// MARK: - ProfileViewController class
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     
     // MARK: - Properties
     
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
-    private var token = OAuth2TokenStorage.shared
     private var profileImageServiceObserver: NSObjectProtocol?
     private var alertPresenter: AlertPresenterProtocol?
     
@@ -57,6 +59,8 @@ final class ProfileViewController: UIViewController {
         return button
     }()
     
+    lazy var presenter: ProfilePresenterProtocol = ProfilePresenter(view: self)
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -71,7 +75,7 @@ final class ProfileViewController: UIViewController {
         addDescriptionLabel()
         addLogoutButton()
         
-        guard let profile = profileService.profile else { return }
+        guard let profile = presenter.profile else { return }
         updateProfileDetails(profile: profile)
         
         profileImageServiceObserver = NotificationCenter.default
@@ -147,11 +151,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func updateUserImage() {
-        guard
-            let profileImageURL = profileImageService.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        userImageView.kf.setImage(with: url,placeholder: UIImage(named: "UserPicStub")) { [weak self] _ in
+        userImageView.kf.setImage(with: presenter.imageURL, placeholder: UIImage(named: "UserPicStub")) { [weak self] _ in
             guard let self else { return }
             self.userImageView.layer.sublayers?.removeAll()
         }
@@ -170,15 +170,6 @@ final class ProfileViewController: UIViewController {
         descriptionLabel.layer.sublayers?.removeAll()
     }
     
-    private func logout() {
-        token.removeToken()
-        WKWebView.clean()
-        
-        guard let window = UIApplication.shared.windows.first else { return }
-        let splashViewController = SplashViewController()
-        window.rootViewController = splashViewController
-    }
-    
     // MARK: - Objective-C methods
     
     @objc
@@ -190,7 +181,7 @@ final class ProfileViewController: UIViewController {
             secondaryButtonText: "Нет"
         ) { [weak self] in
             guard let self else { return }
-            self.logout()
+            self.presenter.logout()
         }
         
         alertPresenter?.showAlertWithTwoActions(model: alert)

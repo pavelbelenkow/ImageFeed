@@ -17,6 +17,8 @@
 		593FDCB62A0D7998000F3B02 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593FDCB52A0D7998000F3B02 /* TabBarController.swift */; };
 		594D03D529FF05E100D107CA /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D03D429FF05E100D107CA /* UIBlockingProgressHUD.swift */; };
 		595438932A22B5DE00897FE8 /* CAGradientLayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595438922A22B5DE00897FE8 /* CAGradientLayer+Extensions.swift */; };
+		5956B2612A31148800F4E285 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5956B2602A31148800F4E285 /* ProfilePresenter.swift */; };
+		5956B2652A3123A900F4E285 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5956B2642A3123A900F4E285 /* ProfileTests.swift */; };
 		59689F142A2CDD12008D1AA8 /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59689F132A2CDD12008D1AA8 /* AuthHelper.swift */; };
 		5969CB7E2A0866400036D471 /* ProfileImageSevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5969CB7D2A0866400036D471 /* ProfileImageSevice.swift */; };
 		5969CB822A0867240036D471 /* UserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5969CB812A0867240036D471 /* UserResult.swift */; };
@@ -72,6 +74,8 @@
 		593FDCB52A0D7998000F3B02 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		594D03D429FF05E100D107CA /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		595438922A22B5DE00897FE8 /* CAGradientLayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extensions.swift"; sourceTree = "<group>"; };
+		5956B2602A31148800F4E285 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
+		5956B2642A3123A900F4E285 /* ProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
 		59689F132A2CDD12008D1AA8 /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		5969CB7D2A0866400036D471 /* ProfileImageSevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageSevice.swift; sourceTree = "<group>"; };
 		5969CB812A0867240036D471 /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
@@ -136,6 +140,7 @@
 			children = (
 				59BF9F6A2A2E1D1700F4F039 /* WebViewTests */,
 				59E1D39D2A2E900B00D1A592 /* ImagesListTests.swift */,
+				5956B2642A3123A900F4E285 /* ProfileTests.swift */,
 			);
 			path = ImageFeedTests;
 			sourceTree = "<group>";
@@ -280,6 +285,7 @@
 		59DDFDBD29D78700008081EB /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				5956B2602A31148800F4E285 /* ProfilePresenter.swift */,
 				596F6BB529D638B600B72550 /* ProfileViewController.swift */,
 			);
 			path = Profile;
@@ -400,6 +406,7 @@
 				59E1D39E2A2E900B00D1A592 /* ImagesListTests.swift in Sources */,
 				59BF9F692A2E1B2500F4F039 /* WebViewViewControllerSpy.swift in Sources */,
 				59BF9F672A2E1ABA00F4F039 /* WebViewPresenterSpy.swift in Sources */,
+				5956B2652A3123A900F4E285 /* ProfileTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +417,7 @@
 				59A0374529C3911800AA8CC8 /* ImagesListViewController.swift in Sources */,
 				59941BFE29C8982000AC5D3D /* ImagesListCell.swift in Sources */,
 				5969CB7E2A0866400036D471 /* ProfileImageSevice.swift in Sources */,
+				5956B2612A31148800F4E285 /* ProfilePresenter.swift in Sources */,
 				59D177E829EB303B002ADD68 /* AuthViewController.swift in Sources */,
 				592FA59529CA09BD008BF730 /* GradientView.swift in Sources */,
 				594D03D529FF05E100D107CA /* UIBlockingProgressHUD.swift in Sources */,
