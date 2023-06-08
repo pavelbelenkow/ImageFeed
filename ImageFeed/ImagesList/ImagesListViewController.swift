@@ -11,12 +11,12 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     
     // MARK: - Outlets
     
-    @IBOutlet var tableView: UITableView! // changed access level for tests
+    @IBOutlet private var tableView: UITableView!
     
     // MARK: - Properties
     
     private let showSingleImageSegueIdentifier = "PresentSingleImage"
-    var photos: [Photo] = [] // changed access level for tests
+    private var photos: [Photo] = []
     lazy var presenter: ImagesListPresenterProtocol = ImagesListPresenter(viewController: self)
     private var alertPresenter: AlertPresenterProtocol?
     private var imagesListServiceObserver: NSObjectProtocol?
@@ -37,6 +37,8 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
                 guard let self else { return }
                 self.updateTableViewAnimated()
             }
+        
+        updateTableViewAnimated()
         presenter.presentPhotosNextPage()
     }
     
@@ -55,7 +57,7 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     }
 }
 
-extension ImagesListViewController {  // changed access level for tests
+private extension ImagesListViewController {
     func updateTableViewAnimated() {
         tableView.performBatchUpdates {
             let oldCount = photos.count
