@@ -56,6 +56,7 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
         )
         button.tintColor = UIColor(named: "red")
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = "Logout"
         return button
     }()
     

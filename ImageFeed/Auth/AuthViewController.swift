@@ -14,6 +14,10 @@ protocol AuthViewControllerDelegate: AnyObject {
 
 final class AuthViewController: UIViewController {
     
+    // MARK: - Outlets
+    
+    @IBOutlet private var loginButton: UIButton!
+    
     // MARK: - Properties
     
     private let showWebViewSegueIdentifier = "ShowWebView"
