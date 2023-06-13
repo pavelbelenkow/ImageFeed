@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,7 +16,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="ccZ-pK-KzI"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Wvp-Aq-iRh">
-                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="47" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -33,19 +33,20 @@
             <objects>
                 <viewController storyboardIdentifier="AuthViewController" id="WfQ-jc-Alx" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YZQ-mP-B8k">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UnsplashLogo" translatesAutoresizingMaskIntoConstraints="NO" id="HOy-hF-rk8">
-                                <rect key="frame" x="177" y="418" width="60" height="60"/>
+                                <rect key="frame" x="165" y="392" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="AZq-RR-weu"/>
                                     <constraint firstAttribute="width" constant="60" id="fPU-xs-jk1"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0xe-dl-0se" userLabel="Login Button">
-                                <rect key="frame" x="16" y="724" width="382" height="48"/>
+                                <rect key="frame" x="16" y="672" width="358" height="48"/>
                                 <color key="backgroundColor" name="white"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Authenticate"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="SpZ-cr-5bs"/>
                                 </constraints>
@@ -76,6 +77,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="awm-xt-MAa"/>
+                    <connections>
+                        <outlet property="loginButton" destination="0xe-dl-0se" id="3T7-Nd-gyc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EBt-EX-CaN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -86,11 +90,11 @@
             <objects>
                 <viewController storyboardIdentifier="WebViewViewController" id="sSa-sd-Ia9" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Cup-Sd-LOa">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P3H-MN-yG0">
-                                <rect key="frame" x="0.0" y="52" width="414" height="844"/>
+                                <rect key="frame" x="0.0" y="52" width="390" height="792"/>
                                 <color key="backgroundColor" name="white"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -110,12 +114,15 @@
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pPA-ip-0X7">
-                                <rect key="frame" x="0.0" y="48" width="414" height="4"/>
+                                <rect key="frame" x="0.0" y="48" width="390" height="4"/>
                                 <color key="tintColor" name="background"/>
                             </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NIl-wv-Pi4"/>
                         <color key="backgroundColor" name="white"/>
+                        <accessibility key="accessibilityConfiguration" identifier="UnsplashWebView">
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
                         <constraints>
                             <constraint firstItem="WbE-VP-Z8i" firstAttribute="leading" secondItem="NIl-wv-Pi4" secondAttribute="leading" id="3Pz-Ix-K3m"/>
                             <constraint firstItem="P3H-MN-yG0" firstAttribute="top" secondItem="pPA-ip-0X7" secondAttribute="bottom" id="5Ma-jv-Wbh"/>
@@ -161,88 +168,12 @@
             <objects>
                 <viewController storyboardIdentifier="ImagesListViewController" title="ImageList" id="BYZ-38-t0r" customClass="ImagesListViewController" customModule="ImageFeed" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="6A6-Dg-QJ6">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <color key="backgroundColor" name="background"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImagesListCell" rowHeight="370" id="iV7-la-7X1" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="414" height="370"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iV7-la-7X1" id="L6H-2b-YAm">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="370"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CardStub" translatesAutoresizingMaskIntoConstraints="NO" id="6lF-XP-GNg" userLabel="Cell Image">
-                                                    <rect key="frame" x="16" y="4" width="382" height="362"/>
-                                                    <color key="backgroundColor" name="white(alpha 50)"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="16"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
-                                                    </userDefinedRuntimeAttributes>
-                                                </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ERk-16-1Iu" userLabel="Like Button">
-                                                    <rect key="frame" x="356" y="4" width="42" height="42"/>
-                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" image="LikeButtonNoActive"/>
-                                                    <connections>
-                                                        <action selector="likeButtonClicked" destination="iV7-la-7X1" eventType="touchUpInside" id="Juk-dI-u6b"/>
-                                                    </connections>
-                                                </button>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x16-w2-LUK" userLabel="Date Container" customClass="GradientView" customModule="ImageFeed" customModuleProvider="target">
-                                                    <rect key="frame" x="16" y="334" width="382" height="32"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 марта 2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pq9-p1-KVT" userLabel="Date Label">
-                                                            <rect key="frame" x="8" y="8" width="85.5" height="16"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                            <color key="textColor" name="white"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstAttribute="bottom" secondItem="Pq9-p1-KVT" secondAttribute="bottom" constant="8" id="0AV-2f-jVU"/>
-                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Pq9-p1-KVT" secondAttribute="trailing" constant="8" id="WeW-gg-JQ0"/>
-                                                        <constraint firstItem="Pq9-p1-KVT" firstAttribute="leading" secondItem="x16-w2-LUK" secondAttribute="leading" constant="8" id="nLV-fB-MHT"/>
-                                                        <constraint firstItem="Pq9-p1-KVT" firstAttribute="top" secondItem="x16-w2-LUK" secondAttribute="top" constant="8" id="x5O-ZF-zKh"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="alpha">
-                                                            <real key="value" value="1"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
-                                                            <color key="value" name="background(alpha 0)"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="secondColor">
-                                                            <color key="value" name="background(alpha 20)"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" name="background"/>
-                                            <constraints>
-                                                <constraint firstItem="ERk-16-1Iu" firstAttribute="trailing" secondItem="6lF-XP-GNg" secondAttribute="trailing" id="BN2-He-l6v"/>
-                                                <constraint firstAttribute="trailing" secondItem="6lF-XP-GNg" secondAttribute="trailing" constant="16" id="Uls-bD-9rv"/>
-                                                <constraint firstItem="x16-w2-LUK" firstAttribute="leading" secondItem="6lF-XP-GNg" secondAttribute="leading" id="YYv-Bo-f3W"/>
-                                                <constraint firstItem="x16-w2-LUK" firstAttribute="bottom" secondItem="6lF-XP-GNg" secondAttribute="bottom" id="bta-qm-Ttn"/>
-                                                <constraint firstItem="6lF-XP-GNg" firstAttribute="top" secondItem="L6H-2b-YAm" secondAttribute="top" constant="4" id="kN2-tJ-hIN"/>
-                                                <constraint firstItem="x16-w2-LUK" firstAttribute="trailing" secondItem="6lF-XP-GNg" secondAttribute="trailing" id="kat-me-x7i"/>
-                                                <constraint firstItem="ERk-16-1Iu" firstAttribute="top" secondItem="6lF-XP-GNg" secondAttribute="top" id="lMo-3m-dgS"/>
-                                                <constraint firstAttribute="bottom" secondItem="6lF-XP-GNg" secondAttribute="bottom" constant="4" id="lMw-7b-Nrb"/>
-                                                <constraint firstItem="6lF-XP-GNg" firstAttribute="leading" secondItem="L6H-2b-YAm" secondAttribute="leading" constant="16" id="w7W-FE-3Nf"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" name="background"/>
-                                        <connections>
-                                            <outlet property="cellImage" destination="6lF-XP-GNg" id="25g-wT-Z3k"/>
-                                            <outlet property="dateLabel" destination="Pq9-p1-KVT" id="VOa-gE-PRq"/>
-                                            <outlet property="likeButton" destination="ERk-16-1Iu" id="V0E-G9-Egv"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="zeI-tn-Mgv"/>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="3eO-FM-U6P"/>
@@ -274,11 +205,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="skr-Vj-AAT" userLabel="Single Image" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="grV-d3-iJ2">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FTq-R0-A7d">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="15" translatesAutoresizingMaskIntoConstraints="NO" id="mcW-a8-4ZG">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="263"/>
@@ -302,7 +233,7 @@
                                 </connections>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6R5-Ai-VLx" userLabel="Share Button">
-                                <rect key="frame" x="182" y="829" width="50" height="50"/>
+                                <rect key="frame" x="170" y="777" width="50" height="50"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="Share"/>
                                 <connections>
@@ -311,6 +242,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RGN-6Z-5Is" userLabel="Back Button">
                                 <rect key="frame" x="9" y="11" width="48" height="48"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Back"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="hbU-Ye-QcZ"/>
                                     <constraint firstAttribute="width" constant="48" id="stf-sf-GU5"/>
@@ -354,25 +286,14 @@
         <image name="15" width="200" height="263"/>
         <image name="BackwardButton" width="24" height="24"/>
         <image name="BackwardButtonBlack" width="24" height="24"/>
-        <image name="CardStub" width="83" height="75"/>
-        <image name="LikeButtonNoActive" width="42" height="42"/>
         <image name="MainPageActive" width="30" height="30"/>
         <image name="Share" width="50" height="50"/>
         <image name="UnsplashLogo" width="60" height="60"/>
         <namedColor name="background">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="background(alpha 0)">
-            <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="background(alpha 20)">
-            <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="0.20000000298023224" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="white">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="white(alpha 50)">
-            <color red="1" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
