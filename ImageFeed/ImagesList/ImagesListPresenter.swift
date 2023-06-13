@@ -22,7 +22,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     
     // MARK: - Properties
     
-    private let imagesListService: ImagesListService
+    private let imagesListService: ImagesListServiceProtocol
     weak var view: ImagesListViewControllerProtocol?
     var photos: [Photo] {
         imagesListService.photos
@@ -30,7 +30,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     
     // MARK: - Initializers
     
-    init(viewController: ImagesListViewController, imagesListService: ImagesListService = .shared) {
+    init(viewController: ImagesListViewController, imagesListService: ImagesListServiceProtocol = ImagesListService.shared) {
         self.view = viewController
         self.imagesListService = imagesListService
     }

@@ -8,55 +8,54 @@
 import XCTest
 @testable import ImageFeed
 
-final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
-    var view: ImageFeed.ImagesListViewControllerProtocol?
+final class ImagesListServiceMock: ImagesListServiceProtocol {
+    var photos: [ImageFeed.Photo] = []
     
-    var photosCalled: Bool = false
-    var presentPhotosNextPageCalled: Bool = false
+    var fetchPhotosNextPageCalled: Bool = false
+    var changeLikeCalled: Bool = false
     
-    var photos: [ImageFeed.Photo] {
-        photosCalled = true
-        return []
+    func fetchPhotosNextPage(completion: @escaping (Result<[ImageFeed.Photo], Error>) -> Void) {
+        fetchPhotosNextPageCalled = true
     }
-    
-    func presentPhotosNextPage() {
-        presentPhotosNextPageCalled = true
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        changeLikeCalled = true
     }
-    
-    func presentChangeLikeResult(photo: ImageFeed.Photo, completion: @escaping (Result<Void, Error>) -> Void) {}
-    }
+}
 
 final class ImagesListTests: XCTestCase {
     
-    func testImagesListViewControllerCallsPhotos() {
+    func testImagesListPresenterCallsFetchPhotos() {
         // given
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController") as! ImagesListViewController
-        
-        let presenter = ImagesListPresenterSpy()
-        viewController.presenter = presenter
-        presenter.view = viewController
-        
+        let viewController = ImagesListViewController()
+        let service = ImagesListServiceMock()
+        let sut = ImagesListPresenter(viewController: viewController, imagesListService: service)
+       
         // when
-        _ = viewController.view
+        sut.presentPhotosNextPage()
         
         // then
-        XCTAssertTrue(presenter.photosCalled)
+        XCTAssertTrue(service.fetchPhotosNextPageCalled)
     }
     
-    func testImagesListViewControllerCallsPresentPhotosNextPage() {
+    func testImagesListPresenterCallsChangeLike() {
         // given
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController") as! ImagesListViewController
-        
-        let presenter = ImagesListPresenterSpy()
-        viewController.presenter = presenter
-        presenter.view = viewController
+        let viewController = ImagesListViewController()
+        let service = ImagesListServiceMock()
+        let sut = ImagesListPresenter(viewController: viewController, imagesListService: service)
         
         // when
-        _ = viewController.view
+        sut.presentChangeLikeResult(
+            photo: Photo(
+                id: String(),
+                size: CGSize(),
+                createdAt: Date(),
+                welcomeDescription: String(),
+                thumbImageURL: String(),
+                largeImageURL: String(),
+                isLiked: Bool()
+            )) { _ in }
         
         // then
-        XCTAssertTrue(presenter.presentPhotosNextPageCalled)
+        XCTAssertTrue(service.changeLikeCalled)
     }
 }

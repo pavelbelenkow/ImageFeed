@@ -8,6 +8,7 @@
 import Foundation
 
 protocol ImagesListServiceProtocol {
+    var photos: [Photo] { get }
     func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void)
     func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
 }
@@ -66,10 +67,6 @@ final class ImagesListService: ImagesListServiceProtocol {
         _ completion: @escaping (Result<Void, Error>) -> Void
     ) {
         assert(Thread.isMainThread)
-        if task != nil {
-            task?.cancel()
-            return
-        }
         
         let method = isLike ? "POST" : "DELETE"
         
