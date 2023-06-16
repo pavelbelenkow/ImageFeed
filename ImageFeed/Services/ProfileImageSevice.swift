@@ -7,6 +7,11 @@
 
 import Foundation
 
+protocol ProfileImageServiceProtocol {
+    var avatarURL: String? { get }
+    func fetchProfileImageURL(token: String, username: String, _ completion: @escaping (Result<String, Error>) -> Void)
+}
+
 final class ProfileImageService: ProfileImageServiceProtocol {
     
     static let shared = ProfileImageService()
@@ -54,14 +59,8 @@ final class ProfileImageService: ProfileImageServiceProtocol {
 }
 
 private extension ProfileImageService {
-    func profileImageRequest(_ token: String?, _ username: String) -> URLRequest? {
-        guard let token else {
-            assertionFailure("Failed to get token")
-            return nil
-        }
-        
-        var request = URLRequest.makeHTTPRequest(
-            baseURL: Constants.defaultBaseURL,
+    func profileImageRequest(_ token: String, _ username: String) -> URLRequest? {
+        var request = URLRequest.makeRequest(
             path: "/users/\(username)",
             httpMethod: "GET"
         )

@@ -7,6 +7,10 @@
 
 import Foundation
 
+protocol OAuth2ServiceProtocol {
+    func fetchAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void)
+}
+
 final class OAuth2Service: OAuth2ServiceProtocol {
     
     static let shared = OAuth2Service()
@@ -44,27 +48,15 @@ final class OAuth2Service: OAuth2ServiceProtocol {
 
 private extension OAuth2Service {
     func oauth2Request(_ code: String) -> URLRequest? {
-        
-        guard var urlComponents = URLComponents(string: Constants.unsplashTokenURL) else {
-            assertionFailure("Failed to get URL from String")
-            return nil
-        }
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "client_secret", value: Constants.secretKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "code", value: code),
-            URLQueryItem(name: "grant_type", value: "authorization_code")
-        ]
-        
-        guard let url = urlComponents.url else {
-            assertionFailure("Failed to create URL")
-            return nil
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        return request
+        URLRequest.makeRequest(
+            baseURL: Constants.unsplashTokenString,
+            path:
+              "?client_id=\(Constants.accessKey)"
+            + "&&client_secret=\(Constants.secretKey)"
+            + "&&redirect_uri=\(Constants.redirectURI)"
+            + "&&code=\(code)"
+            + "&&grant_type=authorization_code",
+            httpMethod: "POST"
+        )
     }
 }

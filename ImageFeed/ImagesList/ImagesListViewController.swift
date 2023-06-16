@@ -1,7 +1,13 @@
 import UIKit
 import ProgressHUD
 
-final class ImagesListViewController: UIViewController {
+// MARK: - Protocols
+
+protocol ImagesListViewControllerProtocol: AnyObject {}
+
+// MARK: - ImagesListViewController Class
+
+final class ImagesListViewController: UIViewController & ImagesListViewControllerProtocol {
     
     // MARK: - Outlets
     
@@ -10,15 +16,16 @@ final class ImagesListViewController: UIViewController {
     // MARK: - Properties
     
     private let showSingleImageSegueIdentifier = "PresentSingleImage"
-    private let imagesListService = ImagesListService.shared
     private var photos: [Photo] = []
-    private var imagesListServiceObserver: NSObjectProtocol?
+    lazy var presenter: ImagesListPresenterProtocol = ImagesListPresenter(viewController: self)
     private var alertPresenter: AlertPresenterProtocol?
+    private var imagesListServiceObserver: NSObjectProtocol?
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         alertPresenter = AlertPresenter(viewController: self)
         
@@ -31,7 +38,9 @@ final class ImagesListViewController: UIViewController {
                 guard let self else { return }
                 self.updateTableViewAnimated()
             }
-        imagesListService.fetchPhotosNextPage { _ in }
+        
+        updateTableViewAnimated()
+        presenter.presentPhotosNextPage()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -53,8 +62,8 @@ private extension ImagesListViewController {
     func updateTableViewAnimated() {
         tableView.performBatchUpdates {
             let oldCount = photos.count
-            let newCount = imagesListService.photos.count
-            photos = imagesListService.photos
+            let newCount = presenter.photos.count
+            photos = presenter.photos
             if oldCount != newCount {
                 tableView.performBatchUpdates {
                     var indexPaths: [IndexPath] = []
@@ -74,13 +83,13 @@ extension ImagesListViewController: ImagesListCellDelegate {
         let photo = photos[indexPath.row]
         
         UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+        presenter.presentChangeLikeResult(photo: photo) { [weak self] result in
             guard let self else { return }
             UIBlockingProgressHUD.dismiss()
             
             switch result {
             case .success:
-                self.photos = self.imagesListService.photos
+                self.photos = self.presenter.photos
                 cell.setIsLiked(self.photos[indexPath.row].isLiked)
             case .failure(let error):
                 let alert = AlertModel(
@@ -122,7 +131,7 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row + 1 == photos.count {
-            imagesListService.fetchPhotosNextPage { _ in }
+            presenter.presentPhotosNextPage()
         }
     }
     

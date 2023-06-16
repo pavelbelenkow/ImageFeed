@@ -4,7 +4,7 @@ private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .medium
     formatter.timeStyle = .none
-    formatter.dateFormat = "dd MMMM yyyy"
+    formatter.dateFormat = "d MMMM yyyy"
     return formatter
 }()
 

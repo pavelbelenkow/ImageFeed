@@ -7,6 +7,12 @@
 
 import Foundation
 
+protocol ImagesListServiceProtocol {
+    var photos: [Photo] { get }
+    func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void)
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
+}
+
 final class ImagesListService: ImagesListServiceProtocol {
     
     static let shared = ImagesListService()
@@ -20,7 +26,10 @@ final class ImagesListService: ImagesListServiceProtocol {
     
     func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void) {
         assert(Thread.isMainThread)
-        if task != nil { return }
+        if task != nil {
+            task?.cancel()
+            return
+        }
         
         let nextPage: Int
         if let lastLoadedPage {
@@ -66,21 +75,9 @@ final class ImagesListService: ImagesListServiceProtocol {
             return
         }
         
-        guard let token = token else {
-            assertionFailure("Failed to get token")
-            return
-        }
+        let method = isLike ? "POST" : "DELETE"
         
-        let state = isLike ? "POST" : "DELETE"
-        
-        var request = URLRequest.makeHTTPRequest(
-            baseURL: Constants.defaultBaseURL,
-            path: "/photos/\(photoId)/like",
-            httpMethod: state
-        )
-        request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        guard let request else { return }
+        guard let request = changeLikeRequest(for: photoId, with: method) else { return }
         
         let task = session.objectTask(for: request) { [weak self] (result: Result<PhotoLikeResult, Error>) in
             guard let self else { return }
@@ -103,24 +100,33 @@ final class ImagesListService: ImagesListServiceProtocol {
 
 private extension ImagesListService {
     
-    func photoRequest(for page: Int) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: Constants.defaultBaseURL) else {
-            assertionFailure("Failed to get URL from String")
-            return nil
-        }
-        urlComponents.path = "/photos"
-        urlComponents.queryItems = [URLQueryItem(name: "page", value: "\(page)")]
-        
-        guard
-            let url = urlComponents.url,
-            let token = token
-        else {
-            assertionFailure("Failed to create URL")
+    func photoRequest(for nextPage: Int) -> URLRequest? {
+        guard let token = token else {
+            assert(token == nil, "Failed to get token")
             return nil
         }
         
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        var request = URLRequest.makeRequest(
+            path: "/photos"
+            + "?page=\(nextPage)",
+            httpMethod: "GET"
+        )
+        request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        return request
+    }
+    
+    func changeLikeRequest(for photoId: String, with httpMethod: String) -> URLRequest? {
+        guard let token = token else {
+            assert(token == nil, "Failed to get token")
+            return nil
+        }
+        
+        var request = URLRequest.makeRequest(
+            path: "/photos/\(photoId)/like",
+            httpMethod: httpMethod
+        )
+        request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
         return request
     }

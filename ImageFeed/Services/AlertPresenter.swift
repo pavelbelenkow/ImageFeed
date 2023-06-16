@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol AlertPresenterProtocol: AnyObject {
+    func showAlert(model: AlertModel)
+    func showAlertWithTwoActions(model: AlertWithTwoActionsModel)
+}
+
 final class AlertPresenter: AlertPresenterProtocol {
     private weak var viewController: UIViewController?
     
@@ -50,6 +55,8 @@ final class AlertPresenter: AlertPresenterProtocol {
             title: model.secondaryButtonText,
             style: .cancel
         )
+        
+        alert.view.accessibilityIdentifier = "Alert"
         
         alert.addAction(primaryAction)
         alert.addAction(secondaryAction)

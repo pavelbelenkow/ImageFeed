@@ -1,14 +1,16 @@
 import UIKit
-import WebKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+// MARK: Protocols
+
+protocol ProfileViewControllerProtocol: AnyObject {}
+
+// MARK: - ProfileViewController class
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
     
     // MARK: - Properties
     
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
-    private var token = OAuth2TokenStorage.shared
     private var profileImageServiceObserver: NSObjectProtocol?
     private var alertPresenter: AlertPresenterProtocol?
     
@@ -21,7 +23,7 @@ final class ProfileViewController: UIViewController {
         return imageView
     }()
     private lazy var fullNameLabel: UILabel = {
-      let label = UILabel()
+        let label = UILabel()
         label.text = "First Name Last Name"
         label.textColor = UIColor(named: "white")
         label.font = UIFont.boldSystemFont(ofSize: 23)
@@ -30,7 +32,7 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     private lazy var loginNameLabel: UILabel = {
-      let label = UILabel()
+        let label = UILabel()
         label.text = "@username"
         label.textColor = UIColor(named: "gray")
         label.font = UIFont.systemFont(ofSize: 13)
@@ -38,7 +40,7 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     private lazy var descriptionLabel: UILabel = {
-      let label = UILabel()
+        let label = UILabel()
         label.text = "Hello, World!"
         label.textColor = UIColor(named: "white")
         label.font = UIFont.systemFont(ofSize: 13)
@@ -54,8 +56,11 @@ final class ProfileViewController: UIViewController {
         )
         button.tintColor = UIColor(named: "red")
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = "Logout"
         return button
     }()
+    
+    lazy var presenter: ProfilePresenterProtocol = ProfilePresenter(view: self)
     
     // MARK: - Lifecycle
     
@@ -71,7 +76,7 @@ final class ProfileViewController: UIViewController {
         addDescriptionLabel()
         addLogoutButton()
         
-        guard let profile = profileService.profile else { return }
+        guard let profile = presenter.profile else { return }
         updateProfileDetails(profile: profile)
         
         profileImageServiceObserver = NotificationCenter.default
@@ -147,11 +152,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func updateUserImage() {
-        guard
-            let profileImageURL = profileImageService.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        userImageView.kf.setImage(with: url,placeholder: UIImage(named: "UserPicStub")) { [weak self] _ in
+        userImageView.kf.setImage(with: presenter.imageURL, placeholder: UIImage(named: "UserPicStub")) { [weak self] _ in
             guard let self else { return }
             self.userImageView.layer.sublayers?.removeAll()
         }
@@ -170,15 +171,6 @@ final class ProfileViewController: UIViewController {
         descriptionLabel.layer.sublayers?.removeAll()
     }
     
-    private func logout() {
-        token.removeToken()
-        WKWebView.clean()
-        
-        guard let window = UIApplication.shared.windows.first else { return }
-        let splashViewController = SplashViewController()
-        window.rootViewController = splashViewController
-    }
-    
     // MARK: - Objective-C methods
     
     @objc
@@ -190,7 +182,7 @@ final class ProfileViewController: UIViewController {
             secondaryButtonText: "Нет"
         ) { [weak self] in
             guard let self else { return }
-            self.logout()
+            self.presenter.logout()
         }
         
         alertPresenter?.showAlertWithTwoActions(model: alert)

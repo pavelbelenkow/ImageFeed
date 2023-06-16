@@ -7,6 +7,11 @@
 
 import Foundation
 
+protocol ProfileServiceProtocol {
+    var profile: Profile? { get }
+    func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void)
+}
+
 final class ProfileService: ProfileServiceProtocol {
     
     static let shared = ProfileService()
@@ -47,8 +52,7 @@ final class ProfileService: ProfileServiceProtocol {
 private extension ProfileService {
     
     func profileRequest(_ token: String) -> URLRequest? {
-        var request = URLRequest.makeHTTPRequest(
-            baseURL: Constants.defaultBaseURL,
+        var request = URLRequest.makeRequest(
             path: "/me",
             httpMethod: "GET"
         )

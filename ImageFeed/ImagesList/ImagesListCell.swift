@@ -1,23 +1,84 @@
 import UIKit
 import Kingfisher
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
+
 final class ImagesListCell: UITableViewCell {
-    
-    // MARK: - Outlets
-    
-    @IBOutlet private weak var cellImage: UIImageView!
-    @IBOutlet private weak var likeButton: UIButton!
-    @IBOutlet private weak var dateLabel: UILabel!
     
     // MARK: - Properties
     
     static let reuseIdentifier = "ImagesListCell"
+    
+    private lazy var cellImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "CardStub")
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .center
+        imageView.backgroundColor = UIColor(named: "white(alpha 50)")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var dateGradientContainer: UIView = {
+        let container = UIView()
+        container.layer.cornerRadius = 16
+        container.layer.maskedCorners = CACornerMask([.layerMinXMaxYCorner, .layerMaxXMaxYCorner])
+        container.clipsToBounds = true
+        container.translatesAutoresizingMaskIntoConstraints = false
+        return container
+    }()
+    
+    private lazy var dateLabel: UILabel = {
+        let label = UILabel()
+        label.text = "3 марта 2023"
+        label.textColor = UIColor(named: "white")
+        label.font = .systemFont(ofSize: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var likeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "LikeButtonNoActive"), for: .normal)
+        button.addTarget(
+            nil,
+            action: #selector(likeButtonClicked),
+            for: .touchUpInside
+        )
+        button.accessibilityIdentifier = "Like"
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private lazy var gradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.colors = [
+            UIColor(named: "background(alpha 0)")?.cgColor as Any,
+            UIColor(named: "background(alpha 20)")?.cgColor as Any
+        ]
+        gradient.locations = [0, 1]
+        return gradient
+    }()
+    
     weak var delegate: ImagesListCellDelegate?
     
-    // MARK: - Actions
+    // MARK: - Initializers
     
-    @IBAction private func likeButtonClicked() {
-        delegate?.imageListCellDidTapLike(self)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = UIColor(named: "background")
+        self.selectionStyle = .none
+        addCellImage()
+        addDateGradientContainer()
+        addDateLabel()
+        addLikeButton()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
 }
 
@@ -25,9 +86,57 @@ extension ImagesListCell {
     
     // MARK: - Methods
     
+    override func layoutSublayers(of layer: CALayer) {
+        gradient.frame = dateGradientContainer.bounds
+        dateGradientContainer.layer.insertSublayer(gradient, at: 1)
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         cellImage.kf.cancelDownloadTask()
+    }
+    
+    private func addCellImage() {
+        contentView.addSubview(cellImage)
+        
+        NSLayoutConstraint.activate([
+            cellImage.topAnchor.constraint(equalTo: topAnchor, constant: 4),
+            cellImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            cellImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4),
+            cellImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+        ])
+    }
+    
+    private func addDateGradientContainer() {
+        contentView.addSubview(dateGradientContainer)
+        
+        NSLayoutConstraint.activate([
+            dateGradientContainer.leadingAnchor.constraint(equalTo: cellImage.leadingAnchor),
+            dateGradientContainer.bottomAnchor.constraint(equalTo: cellImage.bottomAnchor),
+            dateGradientContainer.trailingAnchor.constraint(equalTo: cellImage.trailingAnchor),
+            dateGradientContainer.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    
+    private func addDateLabel() {
+        contentView.addSubview(dateLabel)
+        
+        NSLayoutConstraint.activate([
+            dateLabel.leadingAnchor.constraint(equalTo: dateGradientContainer.leadingAnchor, constant: 8),
+            dateLabel.bottomAnchor.constraint(equalTo: dateGradientContainer.bottomAnchor, constant: -8),
+            dateLabel.trailingAnchor.constraint(equalTo: dateGradientContainer.trailingAnchor, constant: -8)
+        ])
+    }
+    
+    private func addLikeButton() {
+        contentView.addSubview(likeButton)
+        
+        NSLayoutConstraint.activate([
+            likeButton.topAnchor.constraint(equalTo: cellImage.topAnchor),
+            likeButton.trailingAnchor.constraint(equalTo: cellImage.trailingAnchor),
+            likeButton.heightAnchor.constraint(equalToConstant: 42),
+            likeButton.widthAnchor.constraint(equalToConstant: 42)
+        ])
     }
     
     func configure(from photos: [Photo], in tableView: UITableView, with indexPath: IndexPath) {
@@ -62,5 +171,12 @@ extension ImagesListCell {
     func setIsLiked(_ state: Bool) {
         let likeImage = state ? UIImage(named: "LikeButtonActive") : UIImage(named: "LikeButtonNoActive")
         likeButton.setImage(likeImage, for: .normal)
+    }
+    
+    // MARK: - Objective-C methods
+    
+    @objc
+    private func likeButtonClicked() {
+        delegate?.imageListCellDidTapLike(self)
     }
 }
