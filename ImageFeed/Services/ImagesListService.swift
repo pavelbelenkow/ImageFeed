@@ -26,7 +26,10 @@ final class ImagesListService: ImagesListServiceProtocol {
     
     func fetchPhotosNextPage(completion: @escaping (Result<[Photo], Error>) -> Void) {
         assert(Thread.isMainThread)
-        if task != nil { return }
+        if task != nil {
+            task?.cancel()
+            return
+        }
         
         let nextPage: Int
         if let lastLoadedPage {
@@ -67,6 +70,10 @@ final class ImagesListService: ImagesListServiceProtocol {
         _ completion: @escaping (Result<Void, Error>) -> Void
     ) {
         assert(Thread.isMainThread)
+        if task != nil {
+            task?.cancel()
+            return
+        }
         
         let method = isLike ? "POST" : "DELETE"
         
